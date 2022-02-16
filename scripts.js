@@ -11,6 +11,8 @@ function quizzesObtidos(quizzes){
 
     const listaQuizzes = document.querySelector(".listar-quizzes");
 
+    listaQuizzes.classList.remove("escondido");
+
     listaQuizzes.innerHTML = `
         <h2>Todos os Quizzes</h2>
     `;
@@ -24,10 +26,10 @@ function renderizarCapaDoQuizz(quizz){
     const titulo = quizz.title;
     const img = quizz.image;
 
-    let listaQuizzes = document.querySelector(".listar-quizzes");
+    const listaQuizzes = document.querySelector(".listar-quizzes");
     
     const quizzHTML = `
-        <article class="quizz-capa">
+        <article class="quizz-capa" onclick="exibirQuizz(this)">
             <img src=${img}>
             <h3>${titulo}</h3>
         </article> 
@@ -35,4 +37,12 @@ function renderizarCapaDoQuizz(quizz){
 
     listaQuizzes.innerHTML += quizzHTML;
    
+}
+
+function exibirQuizz(quizz){
+
+    const listaQuizzes = document.querySelector(".listar-quizzes");
+    listaQuizzes.classList.add("escondido");
+
+    // THAIS >>> vc tem que editar a partir daqui
 }
