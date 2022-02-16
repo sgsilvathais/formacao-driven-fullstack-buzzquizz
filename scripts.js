@@ -6,6 +6,7 @@ function obterQuizzes(){
     const promessa = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
 
     promessa.then(quizzesObtidos);
+    promessa.catch(erroEmObterQuizzes);
 }
 
 function quizzesObtidos(quizzes){
@@ -38,6 +39,10 @@ function renderizarCapaDoQuizz(quizz){
 
     listaQuizzes.innerHTML += quizzHTML;
    
+}
+
+function erroEmObterQuizzes(){
+    alert("O site está indisponível =( Tente novamente mais tarde.");
 }
 
 function exibirQuizz(quizz){
