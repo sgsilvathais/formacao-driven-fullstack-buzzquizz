@@ -1,6 +1,19 @@
 //variáveis
 let quizzDoUsuario = null;
 
+const requisitos = {
+    tituloQuizz: 'O título deve ter entre 20 e 65 caracteres',
+    url: 'URL inválida',
+    quantidadePerguntas: 'O quiz deve ter no mínimo 3 perguntas',
+    quantidadeNiveis: 'O quiz deve ter no mínimo 2 níveis',
+    textoPergunta: 'A pergunta deve ter no mínimo 20 caracteres',
+    corDeFundo: 'Código hexadecimal inválido',
+    textoResposta: 'Necessita algum texto',
+    tituloNivel: 'O título no nível deve ter no mínimo 10 caracteres',
+    acertoMinimo: 'Deve ser um número entre 0 e 100',
+    descricaoNivel: 'A descrição deve ter no mínimo 30 caracteres'
+}
+
 function obterQuizzes(){
 
     const promessa = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
@@ -57,18 +70,26 @@ function exibirQuizz(quizz){
 
 function criarQuizz(){
     const criacao = document.querySelector('.criacao');
+    const comeco = document.querySelector('.comeco');
     criacao.classList.remove('escondido');
+    comeco.classList.remove('escondido');
 }
 
 function coletarInformacoesBasicas(){
-    const tituloQuizz = document.querySelector('.titulo-quizz').value;
-    const imagemQuizz = document.querySelector('.imagem-quizz').value;
-    const quantidadePerguntas = document.querySelector('.quantidade-perguntas').value;
-    const quantidadeNiveis = document.querySelector('.quantidade-niveis').value;
+    const mensagensErro = [...document.querySelectorAll('.mensagem-erro')];
+    if (mensagensErro !== null){
+        mensagensErro.forEach((mensagem) => mensagem.innerHTML = '');
+    }   
+    let tituloQuizz = document.querySelector('.tituloQuizz').value;
+    let imagemQuizz = document.querySelector('.imagem-quizz').value;
+    let quantidadePerguntas = document.querySelector('.quantidadePerguntas').value;
+    let quantidadeNiveis = document.querySelector('.quantidadeNiveis').value;
     if (validarInformacoesBasicas(tituloQuizz, imagemQuizz, quantidadePerguntas, quantidadeNiveis)){
         coletarPerguntas(quantidadePerguntas);
-    } else {
-        alert('Preencha as informações corretamente!');
+        tituloQuizz = '';
+        imagemQuizz = '';
+        quantidadePerguntas = '';
+        quantidadeNiveis = '';
     }
 }
 
@@ -77,8 +98,28 @@ function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
     const verificacaoImagem = imagem.slice(0, 4) === 'http' && imagem.slice(5, 8) === '://';
     const verificacaoPerguntas = parseInt(perguntas) >= 3;
     const verificacaoNiveis = parseInt(niveis) >= 2;
-    const verificacaoFinal = verificacaoTitulo && verificacaoImagem && verificacaoPerguntas && verificacaoNiveis;
+    if (verificacaoTitulo === false){
+        mostrarErros('tituloQuizz');
+    }
+    if (verificacaoImagem === false){
+        mostrarErros('url');
+    }
+    if (verificacaoPerguntas === false){
+        mostrarErros('quantidadePerguntas');
+    }
+    if (verificacaoNiveis === false){
+        mostrarErros('quantidadeNiveis');
+    }
+    verificacaoFinal = verificacaoTitulo && verificacaoImagem && verificacaoPerguntas && verificacaoNiveis;
     return verificacaoFinal
+}
+
+function mostrarErros(requisito){
+    const inputErrado = document.querySelector(`.${requisito}`);
+    inputErrado.classList.add('erro');
+    inputErrado.parentNode.innerHTML += `
+        <p class="mensagem-erro">${requisitos[requisito]}</p>
+    `;
 }
 
 function coletarPerguntas(quantidade){

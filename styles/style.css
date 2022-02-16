@@ -103,6 +103,12 @@ h2{
     padding-left: 16px;
 }
 
+.mensagem-erro{
+    font-size: 16px;
+    color: #EC362D;
+    line-height: 19px;
+}
+
 .comeco{
     display: flex;
     flex-direction: column;
@@ -121,14 +127,17 @@ h2{
 
 .criacao .comeco .informacoes-basicas{
     background-color: #FFFFFF;
-    height: 256px;
     padding: 21px 16px 14px;
 }
+
+.criacao .comeco .informacoes-basicas li{
+    margin-bottom: 10px;
+}
+
 
 .criacao .comeco .informacoes-basicas input{
     width: 341px;
     height: 46px;
-    margin-bottom: 10px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
     font-style: italic;
