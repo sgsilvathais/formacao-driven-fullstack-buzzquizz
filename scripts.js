@@ -40,11 +40,12 @@ function quizzesObtidos(quizzes){
 function renderizarCapaDoQuizz(quizz){
     const titulo = quizz.title;
     const img = quizz.image;
+    const id = quizz.id;
 
     const listaQuizzes = document.querySelector(".listar-quizzes");
     
     const quizzHTML = `
-        <article class="quizz-capa" onclick="exibirQuizz(this)">
+        <article class="quizz-capa" onclick="exibirQuizz(${id})">
             <img src=${img}>
             <h3>${titulo}</h3>
         </article> 
@@ -58,12 +59,16 @@ function erroEmObterQuizzes(){
     alert("O site está indisponível =( Tente novamente mais tarde.");
 }
 
-function exibirQuizz(quizz){
+function exibirQuizz(idQuizz){
 
     const listaQuizzes = document.querySelector(".listar-quizzes");
     listaQuizzes.classList.add("escondido");
+    
+    const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
 
-    // THAIS >>> vc tem que editar a partir daqui
+    promessa.then(quizzObtido);
+    promessa.catch(erroEmObterQuizz);
+    console.log(idQuizz);
 }
 
 //criação do quizz

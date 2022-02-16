@@ -98,6 +98,12 @@ h2{
     text-align: left;
 }
 
+.exibir-quiz {
+    position: absolute;
+    top: 69px;
+    left: 0;
+}
+
 .criacao{
     margin-top: 70px;
     padding-left: 16px;
