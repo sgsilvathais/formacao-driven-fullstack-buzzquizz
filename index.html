@@ -23,7 +23,7 @@
             <section class="listar-quizzes">
                 
             </section>
-            <section class="criacao">
+            <section class="criacao escondido">
                 <div class="comeco">
                     <h3>Comece pelo começo</h3>
                     <ul class="informacoes-basicas">
@@ -31,7 +31,7 @@
                             <input type="text" placeholder="Título do seu quizz" class="titulo-quizz">
                         </li>
                         <li>
-                            <input type="text" placeholder="URL da imagem do seu quizz" class="imagem-quizz">
+                            <input type="url" placeholder="URL da imagem do seu quizz" class="imagem-quizz">
                         </li>
                         <li>
                             <input type="text" placeholder="Quantidade de perguntas do quizz" class="quantidade-perguntas">
@@ -40,13 +40,15 @@
                             <input type="text" placeholder="Quantidade de níveis do quizz" class="quantidade-niveis">
                         </li>
                     </ul>
-                    
-                    <button>Prosseguir para criar perguntas</button>
+                    <button onclick="coletarInformacoesBasicas()">Prosseguir para criar perguntas</button>
                 </div>
     
             </section>
         </main>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
