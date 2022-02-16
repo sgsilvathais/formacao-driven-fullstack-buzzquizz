@@ -71,6 +71,18 @@ function exibirQuizz(idQuizz){
     console.log(idQuizz);
 }
 
+function quizzObtido(quiz) {
+    const exibirQuiz = document.querySelector(".exibir-quizz");
+    exibirQuiz.classList.remove("escondido");
+    
+    console.log(quiz);
+    renderizarQuiz(quiz);
+}
+    
+function erroEmObterQuizz(quiz) {
+    
+}
+
 //criação do quizz
 
 function criarQuizz(){
