@@ -177,7 +177,7 @@ figure img:first-child, figure img:nth-child(2) {
     align-items: center;
 }
 
-.criacao .comeco h3{
+.criacao h3{
     display: block;
     height: 89px;
     padding-top: 37px;
@@ -196,9 +196,7 @@ figure img:first-child, figure img:nth-child(2) {
     margin-bottom: 10px;
 }
 
-
-.criacao .comeco .informacoes-basicas input{
-    width: 341px;
+.criacao input{
     height: 46px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
@@ -219,6 +217,46 @@ figure img:first-child, figure img:nth-child(2) {
     font-size: 18px;
     line-height: 21px;
     margin-top: 29px;
+}
+
+.criacao-perguntas{
+   
+}
+
+.criacao-pergunta{
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.criacao h4{
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+    margin-top: 27px;
+}
+
+.criacao-pergunta input{
+    margin-top: 14px;
+}
+
+.criacao-pergunta .resposta{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+}
+
+.pergunta-minimizada{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.pergunta-minimizada i{
+    font-size: 26px;
 }
 
 

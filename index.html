@@ -30,8 +30,8 @@
                 <article class="perguntas"></article>
             </section>
 
-            <section class="criacao escondido">
-                <div class="comeco">
+            <section class="criacao">
+                <div class="comeco escondido">
                     <h3>Comece pelo começo</h3>
                     <ul class="informacoes-basicas">
                         <li>
@@ -49,12 +49,44 @@
                     </ul>
                     <button onclick="coletarInformacoesBasicas()">Prosseguir para criar perguntas</button>
                 </div>
-    
+                
+                <div class="criacao-perguntas">
+                    <h3>Crie suas perguntas</h3>
+                    <div class="criacao-pergunta">
+                        <h4>Pergunta 1</h4>
+                        <input type="text" placeholder="Texto da pergunta" class="textoPergunta">
+                        <input type="text" placeholder="Cor de fundo da pergunta" class="corDeFundo">
+                        <h4>Resposta correta</h4>
+                        <div class="resposta">
+                            <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta">
+                            <input type="text" placeholder="URL da imagem" class="url">
+                        </div>
+                        <h4>Respostas incorretas</h4>
+                        <div class="resposta">
+                            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta">
+                            <input type="text" placeholder="URL da imagem 1" class="url">
+                        </div>
+                        <div class="resposta">
+                            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta">
+                            <input type="text" placeholder="URL da imagem 2" class="url">
+                        </div>
+                        <div class="resposta">
+                            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta">
+                            <input type="text" placeholder="URL da imagem 3" class="url">
+                        </div>
+                    </div>
+
+                    <div class="pergunta-minimizada">
+                        <h4>Pergunta 2</h4>
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://kit.fontawesome.com/e3a16790eb.js" crossorigin="anonymous"></script>
     <script src="scripts.js"></script>
 </body>
 

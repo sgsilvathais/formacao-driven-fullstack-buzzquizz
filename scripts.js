@@ -9,6 +9,7 @@ const requisitos = {
     textoPergunta: 'A pergunta deve ter no mínimo 20 caracteres',
     corDeFundo: 'Código hexadecimal inválido',
     textoResposta: 'Necessita algum texto',
+    quantidadeResposta: 'Deve haver pelo menos uma resposta incorreta',
     tituloNivel: 'O título no nível deve ter no mínimo 10 caracteres',
     acertoMinimo: 'Deve ser um número entre 0 e 100',
     descricaoNivel: 'A descrição deve ter no mínimo 30 caracteres'
@@ -182,4 +183,4 @@ function coletarPerguntas(quantidade){
     comeco.classList.add('escondido');
 }
 
-obterQuizzes();
+// obterQuizzes();
