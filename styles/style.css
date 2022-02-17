@@ -98,10 +98,66 @@ h2{
     text-align: left;
 }
 
-.exibir-quiz {
-    position: absolute;
+.exibir-quizz {
+    width: 100%;
+    display: flex;
+}
+
+
+.capa-quizz-individual {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
     top: 69px;
     left: 0;
+    background-size: 100% 200px;
+}
+
+.capa-quizz-individual h4 {
+    font-weight: normal;
+    font-size: 20px;
+    z-index: 1;
+}
+
+.perguntas {
+    width: 100%;
+    height: 100px;
+    margin-top: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.caixa-quizz {
+    margin-bottom: 30px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.caixa-quizz h4{
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    font-size: 19px;
+    background-color: #434CA0;
+    padding: 20px 15px 15px 15px;
+}
+
+.caixa-respostas {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    gap: 12px;
+}
+
+figure img{
+    width: 163px;
+    height: 113px;  
+}
+figure img:first-child, figure img:nth-child(2) {
+    margin-top: 12px;
 }
 
 .criacao{

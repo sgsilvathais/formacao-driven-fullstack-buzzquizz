@@ -75,12 +75,50 @@ function quizzObtido(quiz) {
     const exibirQuiz = document.querySelector(".exibir-quizz");
     exibirQuiz.classList.remove("escondido");
     
-    console.log(quiz);
     renderizarQuiz(quiz);
+}
+
+function renderizarQuiz(quiz) {
+    const tituloQuizz = quiz.data.title;
+    const imagemCapaQuizz = quiz.data.image;
+    const perguntas = quiz.data.questions;
+    const exibirCapaQuizz = document.querySelector(".capa-quizz-individual");
+    
+    exibirCapaQuizz.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${imagemCapaQuizz})`
+    exibirCapaQuizz.innerHTML = `
+                                <h4>${tituloQuizz}</h4>
+                            `;
+    
+    const quadroPerguntas = document.querySelector(".perguntas");
+    
+    for(let i = 0; i < perguntas.length; i++){
+        quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + ` 
+                                
+                                <article class="caixa-quizz">
+                                    <h4>${perguntas[i].title}</h4>
+                                    <div class="caixa-respostas"></div>
+                                </article>
+                                `;
+        let respostas = perguntas[i].answers;
+        respostas.sort(comparador);
+        
+        for(let j = 0; j < respostas.length; j++) {
+            const resposta = document.querySelector(".caixa-quizz:last-child div");
+            
+            resposta.innerHTML = resposta.innerHTML + `<figure>
+                                                            <img src="${respostas[j].image}">
+                                                        </figure>`
+        }
+                                
+    }
+}
+
+function comparador() { 
+	return Math.random() - 0.5; 
 }
     
 function erroEmObterQuizz(quiz) {
-    
+    alert("O site está indisponível =( Tente novamente mais tarde.");
 }
 
 //criação do quizz
