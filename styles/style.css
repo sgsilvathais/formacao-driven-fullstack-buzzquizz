@@ -207,7 +207,7 @@ figure img:first-child, figure img:nth-child(2) {
     padding: 13px 14px;
 }
 
-.criacao .comeco button{
+.criacao button{
     width: 324px;
     height: 54px;
     background-color: #EC362D;
@@ -217,10 +217,6 @@ figure img:first-child, figure img:nth-child(2) {
     font-size: 18px;
     line-height: 21px;
     margin-top: 29px;
-}
-
-.criacao-perguntas{
-   
 }
 
 .criacao-pergunta{

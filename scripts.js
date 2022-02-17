@@ -136,16 +136,16 @@ function coletarInformacoesBasicas(){
     if (mensagensErro !== null){
         mensagensErro.forEach((mensagem) => mensagem.innerHTML = '');
     }   
-    let tituloQuizz = document.querySelector('.tituloQuizz').value;
-    let imagemQuizz = document.querySelector('.imagem-quizz').value;
-    let quantidadePerguntas = document.querySelector('.quantidadePerguntas').value;
-    let quantidadeNiveis = document.querySelector('.quantidadeNiveis').value;
-    if (validarInformacoesBasicas(tituloQuizz, imagemQuizz, quantidadePerguntas, quantidadeNiveis)){
-        coletarPerguntas(quantidadePerguntas);
-        tituloQuizz = '';
-        imagemQuizz = '';
-        quantidadePerguntas = '';
-        quantidadeNiveis = '';
+    let tituloQuizz = document.querySelector('.tituloQuizz');
+    let imagemQuizz = document.querySelector('.imagem-quizz');
+    let quantidadePerguntas = document.querySelector('.quantidadePerguntas');
+    let quantidadeNiveis = document.querySelector('.quantidadeNiveis');
+    if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
+        renderizarCriacaoPerguntas(quantidadePerguntas.value);
+        tituloQuizz.value='';
+        imagemQuizz.value='';
+        quantidadePerguntas.value='';
+        quantidadeNiveis.value='';
     }
 }
 
@@ -178,9 +178,55 @@ function mostrarErros(requisito){
     `;
 }
 
-function coletarPerguntas(quantidade){
+function renderizarCriacaoPerguntas(quantidade){
     const comeco = document.querySelector('.comeco');
     comeco.classList.add('escondido');
+    const criacaoPerguntas = document.querySelector('.criacao-perguntas');
+    criacaoPerguntas.classList.remove('escondido');
+    for (let i = 1; i<=quantidade; i++){
+        criacaoPerguntas.innerHTML += `
+        <div class="pergunta-minimizada">
+            <h4>Pergunta ${i}</h4>
+            <i class="fa-regular fa-pen-to-square" onclick="criarPergunta(this, ${i})"></i>
+        </div>
+        `
+    }
+    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas()">Prosseguir pra criar níveis</button>`
 }
 
-// obterQuizzes();
+function criarPergunta(icone, i){
+    const criacaoPergunta = icone.parentNode;
+    criacaoPergunta.innerHTML = `
+        <h4>Pergunta ${i}</h4>
+        <input type="text" placeholder="Texto da pergunta" class="textoPergunta">
+        <input type="text" placeholder="Cor de fundo da pergunta" class="corDeFundo">
+        <h4>Resposta correta</h4>
+        <div class="resposta">
+            <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta">
+            <input type="text" placeholder="URL da imagem" class="url">
+        </div>
+        <h4>Respostas incorretas</h4>
+        <div class="resposta">
+            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta">
+            <input type="text" placeholder="URL da imagem 1" class="url">
+        </div>
+        <div class="resposta">
+            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta">
+            <input type="text" placeholder="URL da imagem 2" class="url">
+        </div>
+        <div class="resposta">
+            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta">
+            <input type="text" placeholder="URL da imagem 3" class="url">
+        </div>
+    `
+    criacaoPergunta.classList.remove('pergunta-minimizada');
+    criacaoPergunta.classList.add('criacao-pergunta');
+}
+
+function coletarPerguntas(){
+    console.log('agora pega as informações');
+    const criacaoPerguntas = document.querySelector('.criacao-perguntas');
+    criacaoPerguntas.classList.add('escondido');
+}
+
+obterQuizzes();
