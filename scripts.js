@@ -254,21 +254,21 @@ function criarPergunta(icone, i){
 }
 
 function coletarPerguntas(){
-    console.log('agora pega as informações');
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.add('escondido');
     const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
-    let validacaoPerguntas = null;
+    let validacaoPerguntas = true;
     perguntas.forEach(function(){
         const textoPergunta = document.querySelector('.textoPergunta');
         const corDeFundo = document.querySelector('.corDeFundo');
         const textoRespostas =[...document.querySelectorAll('.textoResposta')];
-        const respostasIncorretas = [...document.querySelectorAll('.respostas-incorretas')];
+        const respostasIncorretas = [...document.querySelectorAll('.resposta-incorreta')];
         const url = [...document.querySelectorAll('.criacao-perguntas .url')];
-        validacaoPerguntas = validacaoPerguntas && validarPerguntas(textoPergunta.value, corDeFundo.value, textoRespostas, respostasIncorretas, url);
+        const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, textoRespostas, respostasIncorretas, url);
+        validacaoPerguntas = validacaoPerguntas && validacaoPergunta;
     });
     if (validacaoPerguntas === true){
-        console.log('segue em frente')
+        console.log('segue em frente');
     } else{
         alert('Tem algo errado aí');
     }
@@ -277,24 +277,25 @@ function coletarPerguntas(){
 function validarPerguntas(textoPergunta, corDeFundo, textoResposta, respostasIncorretas, url){
     const verificacaoTextoPergunta = textoPergunta.length >= 20;
     const verificacaoCorDeFundo = validarHexadecimal(corDeFundo);
-    let verificacaoTextoResposta = null;
-    textoResposta.forEach(function(textoResposta){
-        if (textoResposta.length >= 1){
-            verificacaoTextoResposta = true;
+    let verificacaoTextoResposta = true;
+    textoResposta.forEach(function(texto){
+        if (texto.value.length >= 1){
+            verificacaoTextoResposta = verificacaoTextoResposta && true;
         }
     })
     const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
-    const verificacaoUrl = url.forEach(verificarUrl);
-    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;
+    let verificacaoUrl = true;
+    url.forEach((imagem) => verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value));
+    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;;
     return verificacaoFinal
 }
 
 function validarHexadecimal(hexadecimal){
     let verificacao = null;
-    if (hexadecimal.length === 6){
+    if (hexadecimal.length === 7){
         if (hexadecimal.slice(0,1) === '#'){
             for (let i = 1; i<hexadecimal; i++){
-                if (!((hexadecimal[i] >= 0 && hexadecimal <= 9) ||(hexadecimal[i].toUpperCase().charCodeAt(0) <=65 && hexadecimal[i].toUpperCase().charCodeAt(0) >= 70))){
+                if (!((hexadecimal[i] >= 0 && hexadecimal <= 9) ||(hexadecimal.toUpperCase().charCodeAt(i) <=65 && hexadecimal.toUpperCase().charCodeAt(i) >= 70))){
                     return false
                 }
             }
