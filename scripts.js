@@ -151,7 +151,7 @@ function coletarInformacoesBasicas(){
 
 function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
     const verificacaoTitulo = titulo.length >= 20 && titulo.length <= 65;
-    const verificacaoImagem = imagem.slice(0, 4) === 'http' && imagem.slice(5, 8) === '://';
+    const verificacaoImagem = verificarUrl(imagem);
     const verificacaoPerguntas = parseInt(perguntas) >= 3;
     const verificacaoNiveis = parseInt(niveis) >= 2;
     if (verificacaoTitulo === false){
@@ -170,6 +170,10 @@ function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
     return verificacaoFinal
 }
 
+function verificarUrl(url){
+    return (url.slice(0, 4) === 'http' && url.slice(5, 8) === '://');
+}
+
 function mostrarErros(requisito){
     const inputErrado = document.querySelector(`.${requisito}`);
     inputErrado.classList.add('erro');
@@ -183,6 +187,7 @@ function renderizarCriacaoPerguntas(quantidade){
     comeco.classList.add('escondido');
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.remove('escondido');
+    criacaoPerguntas.innerHTML = '<h3>Crie suas perguntas</h3>'
     for (let i = 1; i<=quantidade; i++){
         criacaoPerguntas.innerHTML += `
         <div class="pergunta-minimizada">
@@ -227,6 +232,54 @@ function coletarPerguntas(){
     console.log('agora pega as informações');
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.add('escondido');
+    const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
+    let validacaoPerguntas = null;
+    perguntas.forEach(function(){
+        const textoPergunta = document.querySelector('.textoPergunta');
+        const corDeFundo = document.querySelector('.corDeFundo');
+        const textoRespostas =[...document.querySelectorAll('.textoResposta')];
+        const respostasIncorretas = [...document.querySelectorAll('.respostas-incorretas')];
+        const url = [...document.querySelectorAll('.criacao-perguntas .url')];
+        validacaoPerguntas = validacaoPerguntas && validarPerguntas(textoPergunta.value, corDeFundo.value, textoRespostas, respostasIncorretas, url);
+    });
+    if (validacaoPerguntas === true){
+        console.log('segue em frente')
+    } else{
+        alert('Tem algo errado aí');
+    }
 }
 
-obterQuizzes();
+function validarPerguntas(textoPergunta, corDeFundo, textoResposta, respostasIncorretas, url){
+    const verificacaoTextoPergunta = textoPergunta.length >= 20;
+    const verificacaoCorDeFundo = validarHexadecimal(corDeFundo);
+    let verificacaoTextoResposta = null;
+    textoResposta.forEach(function(textoResposta){
+        if (textoResposta.length >= 1){
+            verificacaoTextoResposta = true;
+        }
+    })
+    const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
+    const verificacaoUrl = url.forEach(verificarUrl);
+    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;
+    return verificacaoFinal
+}
+
+function validarHexadecimal(hexadecimal){
+    let verificacao = null;
+    if (hexadecimal.length === 6){
+        if (hexadecimal.slice(0,1) === '#'){
+            for (let i = 1; i<hexadecimal; i++){
+                if (!((hexadecimal[i] >= 0 && hexadecimal <= 9) ||(hexadecimal[i].toUpperCase().charCodeAt(0) <=65 && hexadecimal[i].toUpperCase().charCodeAt(0) >= 70))){
+                    return false
+                }
+            }
+            return true
+        } else{
+            return false
+        }
+    } else{
+        return false
+    }
+}
+
+// obterQuizzes();
