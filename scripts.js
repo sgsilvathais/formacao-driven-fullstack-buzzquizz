@@ -29,7 +29,16 @@ function quizzesObtidos(quizzes){
 
     listaQuizzes.classList.remove("escondido");
 
-    listaQuizzes.innerHTML = `
+    // adicionar função aqui: checar se usuário criou quizzes 
+    // se não tiver criado (colocar dentro da função):
+        listaQuizzes.innerHTML=`
+            <nav class="container-botao-adicionar">
+                <p>Você não criou nenhum quizz ainda :(</p>
+                <button class="botao-adicionar" onclick="criarQuizz()">Criar Quizz</button>
+            </nav>
+        `;
+
+    listaQuizzes.innerHTML += `
         <h2>Todos os Quizzes</h2>
     `;
 
@@ -150,6 +159,9 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
 //criação do quizz
 
 function criarQuizz(){
+    const listaQuizzes = document.querySelector(".listar-quizzes");
+    listaQuizzes.classList.add("escondido");
+
     const criacao = document.querySelector('.criacao');
     const comeco = document.querySelector('.comeco');
     criacao.classList.remove('escondido');

@@ -50,16 +50,16 @@ h2{
     font-weight: bold;
     font-size: 20px;
     line-height: 23px;
-    margin-top: calc(69px + 35px); /* mudar quando adicionar botão de criar */
+    margin: 0 18px;
 }
 
 .quizz-capa{
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: auto;
     height: 181px;
     position: relative;
-    margin: 14px 0 auto; 
+    margin: 14px 18px 0px 18px; 
 }
 
 .quizz-capa::after{
@@ -98,6 +98,51 @@ h2{
     bottom: 20px;
     text-align: left;
 }
+
+.container-botao-adicionar {
+    height: 181px;
+    width: auto;
+    margin: 100px 18px 35px 18px;
+    border: 1px dashed #D5D5D5;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-botao-adicionar p {
+    width: 250px;
+    height: 107px;
+    margin-top: 7px;
+    font-size: 20px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #B9B9B9;
+}
+
+.container-botao-adicionar button {
+    font-size: 21px;
+    line-height: 25px;
+    color: #EC362D;
+    width: 151px;
+    height: 40px;
+    background: inherit;
+    border: 1px dashed #EC362D;
+    box-sizing: border-box;
+    border-radius: 50px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.container-botao-adicionar button:hover {
+    color: white;
+    background-color: #EC362D;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
 
 .exibir-quizz {
     width: auto;
@@ -194,7 +239,6 @@ figcaption {
 
 .criacao{
     margin-top: 70px;
-    padding-left: 16px;
 }
 
 .mensagem-erro{
@@ -220,15 +264,22 @@ figcaption {
 }
 
 .criacao .comeco .informacoes-basicas{
+    width: 100%;
     background-color: #FFFFFF;
     padding: 21px 16px 14px;
+   
 }
 
 .criacao .comeco .informacoes-basicas li{
     margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .criacao input, .criacao textarea{
+    width: 100%;
     height: 46px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
@@ -244,12 +295,22 @@ figcaption {
     max-width: 100%;
     height: 54px;
     background-color: #EC362D;
+    opacity: 0.5;
     border-radius: 15px;
     border: none;
     color: #FFF5F4;
     font-size: 18px;
     line-height: 21px;
     margin-top: 29px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+
+.criacao button:hover {
+    opacity: 1;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 .criacao-pergunta, .criacao-nivel{
