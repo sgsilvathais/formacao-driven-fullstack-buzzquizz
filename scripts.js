@@ -254,8 +254,6 @@ function criarPergunta(icone, i){
 }
 
 function coletarPerguntas(quantidadeNiveis){
-    const criacaoPerguntas = document.querySelector('.criacao-perguntas');
-    criacaoPerguntas.classList.add('escondido');
     const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
     let validacaoPerguntas = true;
     perguntas.forEach(function(){
@@ -327,7 +325,7 @@ function renderizarCriacaoNiveis(quantidadeNiveis){
     }
 
     criacaoNiveis.innerHTML += `
-        <button>Finalizar Quizz</button>
+        <button onclick = "coletarNiveis()">Finalizar Quizz</button>
     `
 }
 
@@ -344,4 +342,31 @@ function criarNivel(icone, i){
     criacaoNivel.classList.add('criacao-nivel')
 }
 
-// obterQuizzes();
+function coletarNiveis(){
+    const niveis = [...document.querySelectorAll('.criacao-nivel')];
+    let validacaoNiveis = true;
+    niveis.forEach(function(nivel){
+        const tituloNivel = nivel.querySelector('.tituloNivel');
+        const acertoMinimo = nivel.querySelector('.acertoMinimo');
+        const url = nivel.querySelector('.criacao-niveis .url');
+        const descricaoNivel = nivel.querySelector('.descricaoNivel');
+        const validacaoNivel = validarNivel(tituloNivel.value, acertoMinimo.value, url.value, descricaoNivel.value);
+        validacaoNiveis = validacaoNiveis && validacaoNivel;
+    });
+    if (validacaoNiveis === true){
+
+    } else{
+        alert('Tem algo errado aí')
+    }
+}
+
+function validarNivel(tituloNivel, acertoMinimo, url, descricaoNivel){
+    const validacaoTituloNivel = tituloNivel.length >= 10;
+    const validacaoAcertoMinimo = parseInt(acertoMinimo) >= 0 && parseInt(acertoMinimo) <= 100;
+    const validacaoUrl = verificarUrl(url);
+    const validacaoDescricaoNivel = descricaoNivel.length >= 30;
+    const validacaoFinal = validacaoTituloNivel && validacaoAcertoMinimo && validacaoUrl && validacaoDescricaoNivel;
+    return validacaoFinal
+}
+
+obterQuizzes();
