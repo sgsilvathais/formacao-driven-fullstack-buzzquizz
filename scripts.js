@@ -92,7 +92,9 @@ function renderizarQuiz(quiz) {
     
     const quadroPerguntas = document.querySelector(".perguntas");
     
+    
     for(let i = 0; i < perguntas.length; i++){
+        
         quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + ` 
                                 
                                 <article class="caixa-quizz">
@@ -100,6 +102,7 @@ function renderizarQuiz(quiz) {
                                     <div class="caixa-respostas"></div>
                                 </article>
                                 `;
+        
         let respostas = perguntas[i].answers;
         respostas.sort(comparador);
         
@@ -108,8 +111,14 @@ function renderizarQuiz(quiz) {
             
             resposta.innerHTML = resposta.innerHTML + `<figure>
                                                             <img src="${respostas[j].image}">
-                                                        </figure>`
+                                                            <figcaption>${respostas[j].text}</figcaption>
+                                                        </figure>`;
+                                                        
         }
+        let backgroundPergunta = document.querySelector(".caixa-quizz:last-child h4");
+        console.log(backgroundPergunta);
+        console.log(perguntas[i].color);
+        backgroundPergunta.style.backgroundColor = `${perguntas[i].color}`;
                                 
     }
 }
