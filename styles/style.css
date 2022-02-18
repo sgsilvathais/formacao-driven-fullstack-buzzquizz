@@ -228,7 +228,7 @@ figcaption {
     margin-bottom: 10px;
 }
 
-.criacao input{
+.criacao input, .criacao textarea{
     height: 46px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
@@ -252,7 +252,7 @@ figcaption {
     margin-top: 29px;
 }
 
-.criacao-pergunta{
+.criacao-pergunta, .criacao-nivel{
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF;
@@ -276,7 +276,7 @@ figcaption {
     margin-bottom: 32px;
 }
 
-.pergunta-minimizada{
+.pergunta-minimizada, .nivel-minimizado{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -284,10 +284,19 @@ figcaption {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
-.pergunta-minimizada i{
+.pergunta-minimizada i, .nivel-minimizado i{
     font-size: 26px;
 }
 
+.criacao-nivel input{
+    margin-top: 14px;
+}
+
+.criacao-nivel textarea{
+    margin-top: 14px;
+    height: 177px;
+    font-family: 'Roboto', sans-serif;
+}
 
 .escondido{
     display: none;

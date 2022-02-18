@@ -166,7 +166,7 @@ function coletarInformacoesBasicas(){
     let quantidadePerguntas = document.querySelector('.quantidadePerguntas');
     let quantidadeNiveis = document.querySelector('.quantidadeNiveis');
     if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
-        renderizarCriacaoPerguntas(quantidadePerguntas.value);
+        renderizarCriacaoPerguntas(quantidadePerguntas.value, quantidadeNiveis.value);
         tituloQuizz.value='';
         imagemQuizz.value='';
         quantidadePerguntas.value='';
@@ -207,13 +207,13 @@ function mostrarErros(requisito){
     `;
 }
 
-function renderizarCriacaoPerguntas(quantidade){
+function renderizarCriacaoPerguntas(quantidadePerguntas, quantidadeNiveis){
     const comeco = document.querySelector('.comeco');
     comeco.classList.add('escondido');
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.remove('escondido');
     criacaoPerguntas.innerHTML = '<h3>Crie suas perguntas</h3>'
-    for (let i = 1; i<=quantidade; i++){
+    for (let i = 1; i<=quantidadePerguntas; i++){
         criacaoPerguntas.innerHTML += `
         <div class="pergunta-minimizada">
             <h4>Pergunta ${i}</h4>
@@ -221,7 +221,7 @@ function renderizarCriacaoPerguntas(quantidade){
         </div>
         `
     }
-    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas()">Prosseguir pra criar níveis</button>`
+    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas(${quantidadeNiveis})">Prosseguir pra criar níveis</button>`
 }
 
 function criarPergunta(icone, i){
@@ -253,7 +253,7 @@ function criarPergunta(icone, i){
     criacaoPergunta.classList.add('criacao-pergunta');
 }
 
-function coletarPerguntas(){
+function coletarPerguntas(quantidadeNiveis){
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.add('escondido');
     const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
@@ -269,6 +269,7 @@ function coletarPerguntas(){
     });
     if (validacaoPerguntas === true){
         console.log('segue em frente');
+        renderizarCriacaoNiveis(quantidadeNiveis);
     } else{
         alert('Tem algo errado aí');
     }
@@ -306,6 +307,41 @@ function validarHexadecimal(hexadecimal){
     } else{
         return false
     }
+}
+
+function renderizarCriacaoNiveis(quantidadeNiveis){
+    const criacaoPergunta = document.querySelector('.criacao-perguntas');
+    criacaoPergunta.classList.add('escondido');
+    const criacaoNiveis = document.querySelector('.criacao-niveis');
+    criacaoNiveis.classList.remove('escondido');
+    criacaoNiveis.innerHTML = `
+        <h3>Agora, decida os níveis</h3>
+    `
+    for (let i = 1; i<=quantidadeNiveis; i++){
+        criacaoNiveis.innerHTML += `
+            <div class="nivel-minimizado">
+                <h4>Nível ${i}</h4>
+                <i class="fa-regular fa-pen-to-square" onclick="criarNivel(this, ${i})"></i>
+            </div>
+        `
+    }
+
+    criacaoNiveis.innerHTML += `
+        <button>Finalizar Quizz</button>
+    `
+}
+
+function criarNivel(icone, i){
+    const criacaoNivel = icone.parentNode;
+    criacaoNivel.innerHTML = `
+        <h4>Nível ${i}</h4>
+        <input type="text" placeholder="Título do nível" class="tituloNivel">
+        <input type="text" placeholder="% de acerto mínima" class="acertoMinimo">
+        <input type="text" placeholder="URL da imagem do nível" class="url">
+        <textarea placeholder="Descrição do nível" class="descricaoNivel" cols="30" rows="10"></textarea>
+    `
+    criacaoNivel.classList.remove('nivel-minimizado');
+    criacaoNivel.classList.add('criacao-nivel')
 }
 
 // obterQuizzes();
