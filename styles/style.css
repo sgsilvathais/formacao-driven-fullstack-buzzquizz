@@ -41,7 +41,6 @@ h1{
 
 main{
     background-color: #FAFAFA;
-    /* padding: 0 14px 18px; */
     display: flex;
     flex-direction: column;
 }
@@ -175,6 +174,23 @@ figcaption {
     font-size: 15px;
     font-weight: bold;
     margin-top: 10px;
+}
+
+.resposta-certa {
+    color: #009C22;
+}
+
+.resposta-errada {
+    color: #FF0B0B;   
+}
+
+.selecionado {
+    pointer-events: none;
+}
+
+.nao-selecionado {
+    pointer-events: none;
+    opacity: 30%;
 }
 
 .criacao{
