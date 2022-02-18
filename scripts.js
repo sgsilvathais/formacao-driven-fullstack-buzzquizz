@@ -61,7 +61,6 @@ function erroEmObterQuizzes(){
 }
 
 function exibirQuizz(idQuizz){
-
     const listaQuizzes = document.querySelector(".listar-quizzes");
     listaQuizzes.classList.add("escondido");
     
@@ -79,10 +78,12 @@ function quizzObtido(quiz) {
     renderizarQuiz(quiz);
 }
 
+let perguntas = null;
+
 function renderizarQuiz(quiz) {
     const tituloQuizz = quiz.data.title;
     const imagemCapaQuizz = quiz.data.image;
-    const perguntas = quiz.data.questions;
+    perguntas = quiz.data.questions;
     const exibirCapaQuizz = document.querySelector(".capa-quizz-individual");
     
     exibirCapaQuizz.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${imagemCapaQuizz})`
@@ -92,6 +93,7 @@ function renderizarQuiz(quiz) {
     
     const quadroPerguntas = document.querySelector(".perguntas");
     
+    
     for(let i = 0; i < perguntas.length; i++){
         quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + ` 
                                 
@@ -100,18 +102,22 @@ function renderizarQuiz(quiz) {
                                     <div class="caixa-respostas"></div>
                                 </article>
                                 `;
-        let respostas = perguntas[i].answers;
+        let backgroundPergunta = document.querySelector(".caixa-quizz:last-child h4");
+        backgroundPergunta.style.backgroundColor = `${perguntas[i].color}`;
+        
+        respostas = perguntas[i].answers;
         respostas.sort(comparador);
         
         for(let j = 0; j < respostas.length; j++) {
             const resposta = document.querySelector(".caixa-quizz:last-child div");
             
-            resposta.innerHTML = resposta.innerHTML + `<figure>
+            resposta.innerHTML = resposta.innerHTML + `<figure onclick="selecionarResposta(${respostas[j].isCorrectAnswer}, this, ${i})">
                                                             <img src="${respostas[j].image}">
-                                                        </figure>`
-        }
-                                
+                                                            <figcaption>${respostas[j].text}</figcaption>
+                                                        </figure>`;                                            
+        }                       
     }
+    
 }
 
 function comparador() { 
@@ -120,6 +126,25 @@ function comparador() {
     
 function erroEmObterQuizz(quiz) {
     alert("O site está indisponível =( Tente novamente mais tarde.");
+}
+
+function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePergunta) {
+    const alternativas = document.querySelectorAll(`.caixa-quizz:nth-child(${indicePergunta + 1}) figure`);
+    console.log(alternativas)
+
+    alternativaSelecionada.classList.add(".selecionado");
+
+    for(let i = 0; i < alternativas.length; i++){
+            if(perguntas[indicePergunta].answers[i].isCorrectAnswer){
+                alternativas[i].classList.add("resposta-certa");
+            }
+            else{
+                alternativas[i].classList.add("resposta-errada");
+            }
+            if(!alternativas[i].classList.contains(".selecionado")){
+                alternativas[i].classList.add("nao-selecionado");
+            }
+    }         
 }
 
 //criação do quizz
