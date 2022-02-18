@@ -178,7 +178,7 @@ function coletarInformacoesBasicas(){
     let quantidadePerguntas = document.querySelector('.quantidadePerguntas');
     let quantidadeNiveis = document.querySelector('.quantidadeNiveis');
     if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
-        renderizarCriacaoPerguntas(quantidadePerguntas.value);
+        renderizarCriacaoPerguntas(quantidadePerguntas.value, quantidadeNiveis.value);
         tituloQuizz.value='';
         imagemQuizz.value='';
         quantidadePerguntas.value='';
@@ -188,7 +188,7 @@ function coletarInformacoesBasicas(){
 
 function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
     const verificacaoTitulo = titulo.length >= 20 && titulo.length <= 65;
-    const verificacaoImagem = imagem.slice(0, 4) === 'http' && imagem.slice(5, 8) === '://';
+    const verificacaoImagem = verificarUrl(imagem);
     const verificacaoPerguntas = parseInt(perguntas) >= 3;
     const verificacaoNiveis = parseInt(niveis) >= 2;
     if (verificacaoTitulo === false){
@@ -207,6 +207,10 @@ function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
     return verificacaoFinal
 }
 
+function verificarUrl(url){
+    return (url.slice(0, 4) === 'http' && url.slice(5, 8) === '://');
+}
+
 function mostrarErros(requisito){
     const inputErrado = document.querySelector(`.${requisito}`);
     inputErrado.classList.add('erro');
@@ -215,12 +219,13 @@ function mostrarErros(requisito){
     `;
 }
 
-function renderizarCriacaoPerguntas(quantidade){
+function renderizarCriacaoPerguntas(quantidadePerguntas, quantidadeNiveis){
     const comeco = document.querySelector('.comeco');
     comeco.classList.add('escondido');
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.remove('escondido');
-    for (let i = 1; i<=quantidade; i++){
+    criacaoPerguntas.innerHTML = '<h3>Crie suas perguntas</h3>'
+    for (let i = 1; i<=quantidadePerguntas; i++){
         criacaoPerguntas.innerHTML += `
         <div class="pergunta-minimizada">
             <h4>Pergunta ${i}</h4>
@@ -228,7 +233,7 @@ function renderizarCriacaoPerguntas(quantidade){
         </div>
         `
     }
-    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas()">Prosseguir pra criar níveis</button>`
+    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas(${quantidadeNiveis})">Prosseguir pra criar níveis</button>`
 }
 
 function criarPergunta(icone, i){
@@ -260,10 +265,95 @@ function criarPergunta(icone, i){
     criacaoPergunta.classList.add('criacao-pergunta');
 }
 
-function coletarPerguntas(){
-    console.log('agora pega as informações');
+function coletarPerguntas(quantidadeNiveis){
     const criacaoPerguntas = document.querySelector('.criacao-perguntas');
     criacaoPerguntas.classList.add('escondido');
+    const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
+    let validacaoPerguntas = true;
+    perguntas.forEach(function(){
+        const textoPergunta = document.querySelector('.textoPergunta');
+        const corDeFundo = document.querySelector('.corDeFundo');
+        const textoRespostas =[...document.querySelectorAll('.textoResposta')];
+        const respostasIncorretas = [...document.querySelectorAll('.resposta-incorreta')];
+        const url = [...document.querySelectorAll('.criacao-perguntas .url')];
+        const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, textoRespostas, respostasIncorretas, url);
+        validacaoPerguntas = validacaoPerguntas && validacaoPergunta;
+    });
+    if (validacaoPerguntas === true){
+        console.log('segue em frente');
+        renderizarCriacaoNiveis(quantidadeNiveis);
+    } else{
+        alert('Tem algo errado aí');
+    }
 }
 
-obterQuizzes();
+function validarPerguntas(textoPergunta, corDeFundo, textoResposta, respostasIncorretas, url){
+    const verificacaoTextoPergunta = textoPergunta.length >= 20;
+    const verificacaoCorDeFundo = validarHexadecimal(corDeFundo);
+    let verificacaoTextoResposta = true;
+    textoResposta.forEach(function(texto){
+        if (texto.value.length >= 1){
+            verificacaoTextoResposta = verificacaoTextoResposta && true;
+        }
+    })
+    const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
+    let verificacaoUrl = true;
+    url.forEach((imagem) => verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value));
+    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;;
+    return verificacaoFinal
+}
+
+function validarHexadecimal(hexadecimal){
+    let verificacao = null;
+    if (hexadecimal.length === 7){
+        if (hexadecimal.slice(0,1) === '#'){
+            for (let i = 1; i<hexadecimal; i++){
+                if (!((hexadecimal[i] >= 0 && hexadecimal <= 9) ||(hexadecimal.toUpperCase().charCodeAt(i) <=65 && hexadecimal.toUpperCase().charCodeAt(i) >= 70))){
+                    return false
+                }
+            }
+            return true
+        } else{
+            return false
+        }
+    } else{
+        return false
+    }
+}
+
+function renderizarCriacaoNiveis(quantidadeNiveis){
+    const criacaoPergunta = document.querySelector('.criacao-perguntas');
+    criacaoPergunta.classList.add('escondido');
+    const criacaoNiveis = document.querySelector('.criacao-niveis');
+    criacaoNiveis.classList.remove('escondido');
+    criacaoNiveis.innerHTML = `
+        <h3>Agora, decida os níveis</h3>
+    `
+    for (let i = 1; i<=quantidadeNiveis; i++){
+        criacaoNiveis.innerHTML += `
+            <div class="nivel-minimizado">
+                <h4>Nível ${i}</h4>
+                <i class="fa-regular fa-pen-to-square" onclick="criarNivel(this, ${i})"></i>
+            </div>
+        `
+    }
+
+    criacaoNiveis.innerHTML += `
+        <button>Finalizar Quizz</button>
+    `
+}
+
+function criarNivel(icone, i){
+    const criacaoNivel = icone.parentNode;
+    criacaoNivel.innerHTML = `
+        <h4>Nível ${i}</h4>
+        <input type="text" placeholder="Título do nível" class="tituloNivel">
+        <input type="text" placeholder="% de acerto mínima" class="acertoMinimo">
+        <input type="text" placeholder="URL da imagem do nível" class="url">
+        <textarea placeholder="Descrição do nível" class="descricaoNivel" cols="30" rows="10"></textarea>
+    `
+    criacaoNivel.classList.remove('nivel-minimizado');
+    criacaoNivel.classList.add('criacao-nivel')
+}
+
+// obterQuizzes();
