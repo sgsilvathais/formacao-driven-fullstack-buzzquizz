@@ -445,19 +445,30 @@ function enviarQuizz(quiz){
     console.log(quiz);
     const promessa = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes', quiz);
     console.log('enviando');
-    promessa.then(renderizarSucessoQuizz);
+    promessa.then(salvarQuizzDoUsuario);
     promessa.catch(erroNoEnvio);
-}
-
-function renderizarSucessoQuizz(resposta){
-    console.log('enviado com sucesso');
-    console.log(resposta.data);
 }
 
 function erroNoEnvio(){
     console.log('não deu não');
     criarQuizz();
+}
 
+function salvarQuizzDoUsuario(quizz){
+    const idQuizzCriado = quizz.data.id;
+    console.log("Id do quizz criado: " + idQuizzCriado);
+   
+    if (localStorage.getItem("idsQuizzesCriados") === null){
+        localStorage.setItem("idsQuizzesCriados","[]");      
+    }
+
+    let idsString = localStorage.getItem("idsQuizzesCriados");
+    let idsArray = JSON.parse(idsString);
+    idsArray.push(idQuizzCriado);
+    idsString = JSON.stringify(idsArray);
+    localStorage.setItem("idsQuizzesCriados", idsString);
+   
+    console.log("Lista de ids salvos: " + localStorage.getItem("idsQuizzesCriados"));
 }
 
 obterQuizzes();
