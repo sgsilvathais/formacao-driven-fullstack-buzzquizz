@@ -283,11 +283,28 @@ figcaption {
     height: 46px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
-    font-style: italic;
     font-size: 19px;
     line-height: 23px;
-    color: #BABABA;
+    color: #000000;
     padding: 13px 14px;
+}
+
+input:placeholder-shown,
+textarea:placeholder-shown {
+    font-style: italic;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #BABABA;
+    opacity: 1; /* Firefox */
+}
+  
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #BABABA;
+}
+  
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #BABABA;
 }
 
 .criacao button{
