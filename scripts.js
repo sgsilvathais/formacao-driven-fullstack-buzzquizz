@@ -179,7 +179,7 @@ function coletarInformacoesBasicas(){
     let quantidadeNiveis = document.querySelector('.quantidadeNiveis');
     if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
         quizzDoUsuario.title = tituloQuizz.value;
-        quizzDoUsuario.imagem = imagemQuizz.value;
+        quizzDoUsuario.image = imagemQuizz.value;
         // console.log(quizzDoUsuario);
         renderizarCriacaoPerguntas(quantidadePerguntas.value, quantidadeNiveis.value);
         tituloQuizz.value='';
