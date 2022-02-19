@@ -1,5 +1,5 @@
 //variáveis
-let quizzDoUsuario = null;
+let quizzDoUsuario = {};
 
 const requisitos = {
     tituloQuizz: 'O título deve ter entre 20 e 65 caracteres',
@@ -178,6 +178,9 @@ function coletarInformacoesBasicas(){
     let quantidadePerguntas = document.querySelector('.quantidadePerguntas');
     let quantidadeNiveis = document.querySelector('.quantidadeNiveis');
     if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
+        quizzDoUsuario.title = tituloQuizz.value;
+        quizzDoUsuario.imagem = imagemQuizz.value;
+        // console.log(quizzDoUsuario);
         renderizarCriacaoPerguntas(quantidadePerguntas.value, quantidadeNiveis.value);
         tituloQuizz.value='';
         imagemQuizz.value='';
@@ -208,7 +211,8 @@ function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
 }
 
 function verificarUrl(url){
-    return (url.slice(0, 4) === 'http' && url.slice(5, 8) === '://');
+    const extensoesImagem = ['png', 'jpg', 'gif']
+    return ((url.slice(0, 8) === 'https://' || url.slice(0, 7) === 'http://') && (extensoesImagem.includes(url.slice(-3))));
 }
 
 function mostrarErros(requisito){
@@ -245,20 +249,20 @@ function criarPergunta(icone, i){
         <h4>Resposta correta</h4>
         <div class="resposta">
             <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta">
-            <input type="text" placeholder="URL da imagem" class="url">
+            <input type="text" placeholder="URL da imagem" class="url imagem-correta">
         </div>
         <h4>Respostas incorretas</h4>
         <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta">
-            <input type="text" placeholder="URL da imagem 1" class="url">
+            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta resposta-incorreta1">
+            <input type="text" placeholder="URL da imagem 1" class="url imagem-incorreta1">
         </div>
         <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta">
-            <input type="text" placeholder="URL da imagem 2" class="url">
+            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta resposta-incorreta2">
+            <input type="text" placeholder="URL da imagem 2" class="url imagem-incorreta2">
         </div>
         <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta">
-            <input type="text" placeholder="URL da imagem 3" class="url">
+            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta resposta-incorreta">
+            <input type="text" placeholder="URL da imagem 3" class="url imagem-incorreta1">
         </div>
     `
     criacaoPergunta.classList.remove('pergunta-minimizada');
@@ -267,18 +271,43 @@ function criarPergunta(icone, i){
 
 function coletarPerguntas(quantidadeNiveis){
     const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
+    quizzDoUsuario.questions = []
     let validacaoPerguntas = true;
-    perguntas.forEach(function(){
-        const textoPergunta = document.querySelector('.textoPergunta');
-        const corDeFundo = document.querySelector('.corDeFundo');
-        const textoRespostas =[...document.querySelectorAll('.textoResposta')];
-        const respostasIncorretas = [...document.querySelectorAll('.resposta-incorreta')];
-        const url = [...document.querySelectorAll('.criacao-perguntas .url')];
+    let i = 0;
+    perguntas.forEach(function(pergunta){
+        const textoPergunta = pergunta.querySelector('.textoPergunta');
+        const corDeFundo = pergunta.querySelector('.corDeFundo');
+        const textoRespostas =[...pergunta.querySelectorAll('.textoResposta')];
+        const respostasIncorretas = [...pergunta.querySelectorAll('.resposta-incorreta')];
+        const url = [...pergunta.querySelectorAll('.criacao-perguntas .url')];
         const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, textoRespostas, respostasIncorretas, url);
+        console.log(`validacao da pergunta: ${validacaoPergunta}`);
+        if (validacaoPergunta === true){
+            quizzDoUsuario.questions.push({});
+            quizzDoUsuario.questions[i].title = textoPergunta.value;
+            quizzDoUsuario.questions[i].color = corDeFundo.value;
+            quizzDoUsuario.questions[i].answers = [];
+            let j = 0;
+            textoRespostas.forEach((texto)=>{
+                quizzDoUsuario.questions[i].answers.push({})
+                quizzDoUsuario.questions[i].answers[j].text = texto.value;
+                if (texto.classList.contains('resposta-correta')){
+                    quizzDoUsuario.questions[i].answers[j].isCorrectAnswer = true;
+                } else if (texto.classList.contains('resposta-incorreta')){
+                    quizzDoUsuario.questions[i].answers[j].isCorrectAnswer = false;
+                }
+                j++;
+            })
+            j = 0;
+            url.forEach((imagem)=>{
+                quizzDoUsuario.questions[i].answers[j].image = imagem.value;
+                j++;
+            })
+            i++;
+        }
         validacaoPerguntas = validacaoPerguntas && validacaoPergunta;
     });
     if (validacaoPerguntas === true){
-        console.log('segue em frente');
         renderizarCriacaoNiveis(quantidadeNiveis);
     } else{
         alert('Tem algo errado aí');
@@ -297,12 +326,20 @@ function validarPerguntas(textoPergunta, corDeFundo, textoResposta, respostasInc
     const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
     let verificacaoUrl = true;
     url.forEach((imagem) => verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value));
-    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;;
+    
+    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;
+    // console.log(`texto:${verificacaoTextoPergunta}`);
+    // console.log(`cor: ${verificacaoCorDeFundo}`);
+    // console.log(`texto resposta: ${verificacaoTextoResposta}`);
+    // console.log(`resposta incorretas: ${verificacaoRespostasIncorretas}`);
+    // console.log(`url: ${verificacaoUrl}`);
+    // console.log(`verificacaoFinal: ${verificacaoFinal}`);
     return verificacaoFinal
 }
 
 function validarHexadecimal(hexadecimal){
     let verificacao = null;
+    console.log(hexadecimal.length);
     if (hexadecimal.length === 7){
         if (hexadecimal.slice(0,1) === '#'){
             for (let i = 1; i<hexadecimal; i++){
@@ -357,15 +394,36 @@ function criarNivel(icone, i){
 function coletarNiveis(){
     const niveis = [...document.querySelectorAll('.criacao-nivel')];
     let validacaoNiveis = true;
+    let i = 0;
+    quizzDoUsuario.levels = [];
     niveis.forEach(function(nivel){
         const tituloNivel = nivel.querySelector('.tituloNivel');
         const acertoMinimo = nivel.querySelector('.acertoMinimo');
         const url = nivel.querySelector('.criacao-niveis .url');
         const descricaoNivel = nivel.querySelector('.descricaoNivel');
         const validacaoNivel = validarNivel(tituloNivel.value, acertoMinimo.value, url.value, descricaoNivel.value);
+        if (validacaoNivel === true){
+            quizzDoUsuario.levels.push({});
+            quizzDoUsuario.levels[i].title = tituloNivel.value;
+            quizzDoUsuario.levels[i].image = url.value;
+            quizzDoUsuario.levels[i].text = descricaoNivel.value;
+            quizzDoUsuario.levels[i].minValue = parseInt(acertoMinimo.value);
+            i++;
+        }
         validacaoNiveis = validacaoNiveis && validacaoNivel;
     });
+    // console.log(`validacao antes do 0: ${validacaoNiveis}`);
+    let validacaoMinimoZero = false;
+    quizzDoUsuario.levels.forEach((level)=> {
+        if (level.minValue === 0){
+            // console.log(`acerto minimo: ${level.minValue}`);
+            validacaoMinimoZero = true;
+        }
+    });
+    validacaoNiveis = validacaoNiveis && validacaoMinimoZero;
+    // console.log(`validacao depois do 0: ${validacaoNiveis}`);
     if (validacaoNiveis === true){
+        enviarQuizz(quizzDoUsuario);
 
     } else{
         alert('Tem algo errado aí')
@@ -379,6 +437,27 @@ function validarNivel(tituloNivel, acertoMinimo, url, descricaoNivel){
     const validacaoDescricaoNivel = descricaoNivel.length >= 30;
     const validacaoFinal = validacaoTituloNivel && validacaoAcertoMinimo && validacaoUrl && validacaoDescricaoNivel;
     return validacaoFinal
+}
+
+function enviarQuizz(quiz){
+    const criacaoNiveis = document.querySelector('.criacao-niveis');
+    criacaoNiveis.classList.add('escondido');    
+    console.log(quiz);
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes', quiz);
+    console.log('enviando');
+    promessa.then(renderizarSucessoQuizz);
+    promessa.catch(erroNoEnvio);
+}
+
+function renderizarSucessoQuizz(resposta){
+    console.log('enviado com sucesso');
+    console.log(resposta.data);
+}
+
+function erroNoEnvio(){
+    console.log('não deu não');
+    criarQuizz();
+
 }
 
 obterQuizzes();
