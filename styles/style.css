@@ -19,7 +19,7 @@ body > div {
     height: auto;
 }
 
-header{
+body > div > header{
     background-color: #EC362D;
     max-width: 614px;
     width: 100%;
@@ -45,12 +45,53 @@ main{
     flex-direction: column;
 }
 
+.listar-quizzes {
+    padding-top: 100px;
+}
+
 h2{
     color: #000000;
     font-weight: bold;
     font-size: 20px;
     line-height: 23px;
+}
+
+.listar-quizzes > h2{
+    margin: 35px 0 0 18px;
+}
+
+.quizzes-usuario-header h2{
     margin: 0 18px;
+}
+
+h2.tela-sucesso{
+    margin-top: 0px;
+}
+
+.quizzes-usuario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.quizzes-usuario-header button {
+    border-style: none;
+    background-color: inherit;
+}
+
+.quizzes-usuario-header button img {
+    height: 30px;
+    width: 31px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.quizzes-usuario-header button img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
 }
 
 .quizz-capa{
@@ -102,7 +143,7 @@ h2{
 .container-botao-adicionar {
     height: 181px;
     width: auto;
-    margin: 100px 18px 35px 18px;
+    margin: 0px 18px 35px 18px;
     border: 1px dashed #D5D5D5;
     border-radius: 5px;
     display: flex;
@@ -115,7 +156,7 @@ h2{
     height: 107px;
     margin-top: 7px;
     font-size: 20px;
-    line-height: 23px;
+    line-height: 28px;
     display: flex;
     align-items: center;
     text-align: center;
@@ -139,6 +180,7 @@ h2{
 .container-botao-adicionar button:hover {
     color: white;
     background-color: #EC362D;
+    cursor: pointer;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
@@ -326,6 +368,7 @@ textarea:placeholder-shown {
 
 .criacao button:hover {
     opacity: 1;
+    cursor: pointer;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }

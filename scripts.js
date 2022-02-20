@@ -29,8 +29,24 @@ function quizzesObtidos(quizzes){
 
     listaQuizzes.classList.remove("escondido");
 
-    // adicionar função aqui: checar se usuário criou quizzes 
-    // se não tiver criado (colocar dentro da função):
+    checarQuizzesDoUsuario(quizzes);
+
+    listaQuizzes.innerHTML += `
+        <h2>Todos os Quizzes</h2>
+    `;
+
+    quizzes.data.forEach(renderizarCapaDoQuizz);
+
+}
+
+function checarQuizzesDoUsuario(quizzes){
+
+    let quizzesDoUsuario = (quizzes.data).filter(filtrarQuizzesDoUsuario);
+
+    const listaQuizzes = document.querySelector(".listar-quizzes");
+    
+    if (quizzesDoUsuario.length === 0){
+        
         listaQuizzes.innerHTML=`
             <nav class="container-botao-adicionar">
                 <p>Você não criou nenhum quizz ainda :(</p>
@@ -38,14 +54,43 @@ function quizzesObtidos(quizzes){
             </nav>
         `;
 
-    listaQuizzes.innerHTML += `
-        <h2>Todos os Quizzes</h2>
-    `;
+    } else {
 
-    console.log(quizzes);
-    quizzes.data.forEach(renderizarCapaDoQuizz);
+        const listaQuizzes = document.querySelector(".listar-quizzes");
 
+        listaQuizzes.innerHTML += `
+        <header class="quizzes-usuario-header">
+            <h2>Seus Quizzes</h2>
+                <button onclick="criarQuizz()">
+                    <img src="./icons/add-button.svg" alt="Botão de adicionar">
+                </button>
+            </header>
+        `;
+
+        quizzesDoUsuario.forEach(renderizarCapaDoQuizz);
+
+    }
 }
+
+function filtrarQuizzesDoUsuario(quizz){
+    
+    const idsString = localStorage.getItem("idsQuizzesCriados");  
+
+    if (idsString !== null){
+        const idsArray = JSON.parse(idsString);
+
+        for (let i = 0; i < idsArray.length; i++){
+            if (quizz.id === idsArray[i]){
+                return true;
+            }
+        }
+
+        return false;
+    } else {
+        return false;
+    } 
+}
+
 
 function renderizarCapaDoQuizz(quizz){
     const titulo = quizz.title;
@@ -450,13 +495,12 @@ function enviarQuizz(quiz){
 }
 
 function erroNoEnvio(){
-    console.log('não deu não');
+    alert('não deu não');
     criarQuizz();
 }
 
 function salvarQuizzDoUsuario(quizz){
     const idQuizzCriado = quizz.data.id;
-    console.log("Id do quizz criado: " + idQuizzCriado);
    
     if (localStorage.getItem("idsQuizzesCriados") === null){
         localStorage.setItem("idsQuizzesCriados","[]");      
@@ -468,7 +512,6 @@ function salvarQuizzDoUsuario(quizz){
     idsString = JSON.stringify(idsArray);
     localStorage.setItem("idsQuizzesCriados", idsString);
    
-    console.log("Lista de ids salvos: " + localStorage.getItem("idsQuizzesCriados"));
 }
 
 obterQuizzes();
