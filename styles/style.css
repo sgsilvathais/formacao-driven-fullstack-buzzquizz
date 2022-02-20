@@ -380,12 +380,12 @@ textarea:placeholder-shown {
     line-height: 19px;
 }
 
+.criacao input.erro:placeholder-shown{
+    background-color: #FFE9E9;
+}
+
 .criacao .comeco .informacoes-basicas li{
     margin-bottom: 10px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .criacao-pergunta .resposta{

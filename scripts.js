@@ -225,10 +225,7 @@ function coletarInformacoesBasicas(){
         quizzDoUsuario.image = imagemQuizz.value;
         // console.log(quizzDoUsuario);
         renderizarCriacaoPerguntas(quantidadePerguntas.value, quantidadeNiveis.value);
-        tituloQuizz.value='';
-        imagemQuizz.value='';
-        quantidadePerguntas.value='';
-        quantidadeNiveis.value='';
+        limparInput('comeco');
     }
 }
 
@@ -275,6 +272,11 @@ function limparMensagemErro(){
 }
 }
 
+function limparInput(tela){
+    const inputParaLimpar = [...document.querySelectorAll(`.${tela} input`)];
+    inputParaLimpar.forEach((input) => input.value='');
+}
+
 function renderizarCriacaoPerguntas(quantidadePerguntas, quantidadeNiveis){
     const comeco = document.querySelector('.comeco');
     comeco.classList.add('escondido');
@@ -296,26 +298,48 @@ function criarPergunta(icone, i){
     const criacaoPergunta = icone.parentNode;
     criacaoPergunta.innerHTML = `
         <h4>Pergunta ${i}</h4>
-        <input type="text" placeholder="Texto da pergunta" id="texto-pergunta${i}">
-        <input type="text" placeholder="Cor de fundo da pergunta" id="cor-de-fundo${i}">
+        <ul>
+            <li>
+                <input type="text" placeholder="Texto da pergunta" id="texto-pergunta${i}">
+            </li>
+            <li>
+                <input type="text" placeholder="Cor de fundo da pergunta" id="cor-de-fundo${i}">        
+            </li>
+        </ul>
         <h4>Resposta correta</h4>
-        <div class="resposta">
-            <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta" id="resposta-correta${i}">
-            <input type="text" placeholder="URL da imagem" class="url" id="imagem${i}-0">
-        </div>
+        <ul class="resposta">
+            <li>
+                <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta" id="resposta-correta${i}">
+            </li> 
+            <li>
+                <input type="text" placeholder="URL da imagem" class="url" id="imagem${i}-0">
+            </li>
+        </ul>
         <h4>Respostas incorretas</h4>
-        <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/1">
-            <input type="text" placeholder="URL da imagem 1" class="url" id="imagem${i}-1">
-        </div>
-        <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/2">
-            <input type="text" placeholder="URL da imagem 2" class="url" id="imagem${i}-2">
-        </div>
-        <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/3">
-            <input type="text" placeholder="URL da imagem 3" class="url" id="imagem${i}-3">
-        </div>
+        <ul class="resposta">
+            <li>
+                <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/1">
+            </li>
+            <li>
+                <input type="text" placeholder="URL da imagem 1" class="url" id="imagem${i}-1">
+            </li>
+        </ul>   
+        <ul class="resposta">
+            <li>
+                <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/2">
+            </li>   
+            <li>
+                <input type="text" placeholder="URL da imagem 2" class="url" id="imagem${i}-2">
+            </li>
+        </ul>
+        <ul class="resposta">
+            <li>
+                <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/3">
+            </li>
+            <li>
+                <input type="text" placeholder="URL da imagem 3" class="url" id="imagem${i}-3">
+            </li>
+        </ul>
     `
     criacaoPergunta.classList.remove('pergunta-minimizada');
     criacaoPergunta.classList.add('criacao-pergunta');
@@ -364,8 +388,6 @@ function coletarPerguntas(quantidadeNiveis){
     });
     if (validacaoPerguntas === true){
         renderizarCriacaoNiveis(quantidadeNiveis);
-    } else{
-        alert('Tem algo errado aí');
     }
 }
 
@@ -456,10 +478,20 @@ function criarNivel(icone, i){
     const criacaoNivel = icone.parentNode;
     criacaoNivel.innerHTML = `
         <h4>Nível ${i}</h4>
-        <input type="text" placeholder="Título do nível" id="titulo-nivel${i}">
-        <input type="text" placeholder="% de acerto mínima" id="acerto-minimo${i}">
-        <input type="text" placeholder="URL da imagem do nível" id="imagem-nivel${i}">
-        <textarea placeholder="Descrição do nível" id="descricao-nivel${i}" cols="30" rows="10"></textarea>
+        <ul>
+            <li>
+                <input type="text" placeholder="Título do nível" id="titulo-nivel${i}">
+            </li>
+            <li>
+                <input type="text" placeholder="% de acerto mínima" id="acerto-minimo${i}">
+            </li>
+            <li>
+                <input type="text" placeholder="URL da imagem do nível" id="imagem-nivel${i}">
+            </li>
+            <li>
+                <textarea placeholder="Descrição do nível" id="descricao-nivel${i}" cols="30" rows="10"></textarea>
+            </li>
+        </ul>
     `
     criacaoNivel.classList.remove('nivel-minimizado');
     criacaoNivel.classList.add('criacao-nivel')
@@ -487,21 +519,20 @@ function coletarNiveis(){
         validacaoNiveis = validacaoNiveis && validacaoNivel;
         i++;
     });
-    // console.log(`validacao antes do 0: ${validacaoNiveis}`);
     let validacaoMinimoZero = false;
     quizzDoUsuario.levels.forEach((level)=> {
         if (level.minValue === 0){
-            // console.log(`acerto minimo: ${level.minValue}`);
             validacaoMinimoZero = true;
         }
     });
+    if (validacaoMinimoZero === false){
+        alert('Um dos níveis precisa ter a % de acerto mínimo igual a 0%');
+    }
     validacaoNiveis = validacaoNiveis && validacaoMinimoZero;
     // console.log(`validacao depois do 0: ${validacaoNiveis}`);
     if (validacaoNiveis === true){
         enviarQuizz(quizzDoUsuario);
 
-    } else{
-        alert('Tem algo errado aí')
     }
 }
 
@@ -511,7 +542,7 @@ function validarNivel(tituloNivel, acertoMinimo, url, descricaoNivel, i){
     const validacaoUrl = verificarUrl(url);
     const validacaoDescricaoNivel = descricaoNivel.length >= 30;
     if (validacaoTituloNivel === false){
-        mostrarErros('tituloNivel', `descricao-nivel${i+1}`);
+        mostrarErros('tituloNivel', `titulo-nivel${i+1}`);
     }
     if (validacaoAcertoMinimo === false){
         mostrarErros('acertoMinimo', `acerto-minimo${i+1}`);
