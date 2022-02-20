@@ -513,28 +513,44 @@ function salvarQuizzDoUsuario(quizz){
     localStorage.setItem("idsQuizzesCriados", idsString);
     
     const passaOQuizz = quizz.data;
-    exibirTelaQuizzCriadoComSucesso(passaOQuizz);
+    renderizarSucessoDoQuizz(passaOQuizz);
+    quizzDoUsuario = {};
 }
 
-function exibirTelaQuizzCriadoComSucesso(quizz){
+function renderizarSucessoDoQuizz(quizz){
     
-    let telaSucesso = document.querySelector(".listar-quizzes");
-    telaSucesso.classList.remove("escondido");
-
-    // falta centralizar aqui
-    telaSucesso.innerHTML = `
-        <h2 class="tela-sucesso">Seu quizz está pronto!</h2>
-    `;
-
-    renderizarCapaDoQuizz(quizz); 
-
-    // botao acessar quizz: falta estilizar
+    const telaSucesso = document.querySelector('.criacao-sucesso');
+    telaSucesso.classList.remove('escondido');
     const id = quizz.id;
-    telaSucesso.innerHTML += `
-        <button onclick="exibirQuizz(${id})">Acessar quizz</button>
+    const img = quizz.image;
+    const titulo = quizz.title;
+    telaSucesso.innerHTML = `
+        <h3 class="tela-sucesso">Seu quizz está pronto!</h3>
+        <article class="quizz-capa" onclick="exibirQuizz(${id})">
+            <img src=${img}>
+            <h3>${titulo}</h3>
+        </article>
+        <div class="botoes">
+            <button onclick="exibirQuizz(${id})">Acessar quizz</button>
+            <button class="voltar" onclick="voltarParaInicio()">Voltar para home</button>
+        </div>
     `;
+}
 
-    // botao de voltar pra home: falta adicionar   
+function exibirQuizzCriado(id){
+    const telaSucesso = document.querySelector('.criacao-sucesso');
+    const telaCriacao = document.querySelector('.criacao');
+    telaSucesso.classList.add('escondido');
+    telaCriacao.classList.add('escondido');
+    exibirQuizz(id);
+}
+
+function voltarParaInicio(){
+    const telaSucesso = document.querySelector('.criacao-sucesso');
+    const telaCriacao = document.querySelector('.criacao');
+    telaSucesso.classList.add('escondido');
+    telaCriacao.classList.add('escondido');
+    obterQuizzes();
 }
 
 obterQuizzes();

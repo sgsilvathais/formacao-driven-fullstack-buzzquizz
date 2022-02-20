@@ -289,7 +289,7 @@ figcaption {
     line-height: 19px;
 }
 
-.comeco{
+.comeco, .criacao-perguntas, .criacao-niveis, .botoes{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -303,13 +303,6 @@ figcaption {
     text-align: center;
     font-size: 20px;
     font-weight: 700;
-}
-
-.criacao .comeco .informacoes-basicas{
-    width: 100%;
-    background-color: #FFFFFF;
-    padding: 21px 16px 14px;
-   
 }
 
 .criacao .comeco .informacoes-basicas li{
@@ -329,6 +322,7 @@ figcaption {
     line-height: 23px;
     color: #000000;
     padding: 13px 14px;
+    margin-top: 14px;
 }
 
 input:placeholder-shown,
@@ -360,7 +354,7 @@ textarea:placeholder-shown {
     color: #FFF5F4;
     font-size: 18px;
     line-height: 21px;
-    margin-top: 29px;
+    margin: 29px 0 30px;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
@@ -373,22 +367,19 @@ textarea:placeholder-shown {
     transition: all 0.3s;
 }
 
-.criacao-pergunta, .criacao-nivel{
-    display: flex;
-    flex-direction: column;
+.informacoes-basicas, .criacao-pergunta, .criacao-nivel{
     background-color: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 1px 20px;
+    width: 100%;
+    margin-bottom: 24px;
 }
 
 .criacao h4{
     font-size: 20px;
     line-height: 24px;
     font-weight: 700;
-    margin-top: 27px;
-}
-
-.criacao-pergunta input{
-    margin-top: 14px;
+    margin: 27px 0 24px;
 }
 
 .criacao-pergunta .resposta{
@@ -401,22 +392,30 @@ textarea:placeholder-shown {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     margin-top: 24px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 0 20px;
 }
 
 .pergunta-minimizada i, .nivel-minimizado i{
     font-size: 26px;
 }
 
-.criacao-nivel input{
-    margin-top: 14px;
-}
-
 .criacao-nivel textarea{
-    margin-top: 14px;
     height: 177px;
     font-family: 'Roboto', sans-serif;
+}
+
+.criacao-sucesso button{
+    margin: 24px 0px 15px;
+}
+
+.criacao-sucesso .voltar{
+    background-color: transparent;
+    color: #818181;
+    border: none;
+    margin: 0px 0px 30px;
 }
 
 .escondido{
