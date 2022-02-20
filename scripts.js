@@ -511,7 +511,30 @@ function salvarQuizzDoUsuario(quizz){
     idsArray.push(idQuizzCriado);
     idsString = JSON.stringify(idsArray);
     localStorage.setItem("idsQuizzesCriados", idsString);
-   
+    
+    const passaOQuizz = quizz.data;
+    exibirTelaQuizzCriadoComSucesso(passaOQuizz);
+}
+
+function exibirTelaQuizzCriadoComSucesso(quizz){
+    
+    let telaSucesso = document.querySelector(".listar-quizzes");
+    telaSucesso.classList.remove("escondido");
+
+    // falta centralizar aqui
+    telaSucesso.innerHTML = `
+        <h2 class="tela-sucesso">Seu quizz está pronto!</h2>
+    `;
+
+    renderizarCapaDoQuizz(quizz); 
+
+    // botao acessar quizz: falta estilizar
+    const id = quizz.id;
+    telaSucesso.innerHTML += `
+        <button onclick="exibirQuizz(${id})">Acessar quizz</button>
+    `;
+
+    // botao de voltar pra home: falta adicionar   
 }
 
 obterQuizzes();
