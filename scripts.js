@@ -8,12 +8,15 @@ const requisitos = {
     quantidadeNiveis: 'O quiz deve ter no mínimo 2 níveis',
     textoPergunta: 'A pergunta deve ter no mínimo 20 caracteres',
     corDeFundo: 'Código hexadecimal inválido',
+    respostaCorreta: 'Deve haver uma resposta correta',
     textoResposta: 'Necessita algum texto',
     quantidadeResposta: 'Deve haver pelo menos uma resposta incorreta',
     tituloNivel: 'O título no nível deve ter no mínimo 10 caracteres',
     acertoMinimo: 'Deve ser um número entre 0 e 100',
     descricaoNivel: 'A descrição deve ter no mínimo 30 caracteres'
 }
+
+let perguntas = null;
 
 function obterQuizzes(){
 
@@ -132,8 +135,6 @@ function quizzObtido(quiz) {
     renderizarQuiz(quiz);
 }
 
-let perguntas = null;
-
 function renderizarQuiz(quiz) {
     const tituloQuizz = quiz.data.title;
     const imagemCapaQuizz = quiz.data.image;
@@ -214,14 +215,11 @@ function criarQuizz(){
 }
 
 function coletarInformacoesBasicas(){
-    const mensagensErro = [...document.querySelectorAll('.mensagem-erro')];
-    if (mensagensErro !== null){
-        mensagensErro.forEach((mensagem) => mensagem.innerHTML = '');
-    }   
-    let tituloQuizz = document.querySelector('.tituloQuizz');
-    let imagemQuizz = document.querySelector('.imagem-quizz');
-    let quantidadePerguntas = document.querySelector('.quantidadePerguntas');
-    let quantidadeNiveis = document.querySelector('.quantidadeNiveis');
+    limparMensagemErro();
+    let tituloQuizz = document.querySelector('#titulo-quizz');
+    let imagemQuizz = document.querySelector('#imagem-quizz');
+    let quantidadePerguntas = document.querySelector('#quantidade-perguntas');
+    let quantidadeNiveis = document.querySelector('#quantidade-niveis');
     if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
         quizzDoUsuario.title = tituloQuizz.value;
         quizzDoUsuario.image = imagemQuizz.value;
@@ -240,16 +238,16 @@ function validarInformacoesBasicas(titulo, imagem, perguntas, niveis){
     const verificacaoPerguntas = parseInt(perguntas) >= 3;
     const verificacaoNiveis = parseInt(niveis) >= 2;
     if (verificacaoTitulo === false){
-        mostrarErros('tituloQuizz');
+        mostrarErros('tituloQuizz', 'titulo-quizz');
     }
     if (verificacaoImagem === false){
-        mostrarErros('url');
+        mostrarErros('url', 'imagem-quizz');
     }
     if (verificacaoPerguntas === false){
-        mostrarErros('quantidadePerguntas');
+        mostrarErros('quantidadePerguntas', 'quantidade-perguntas');
     }
     if (verificacaoNiveis === false){
-        mostrarErros('quantidadeNiveis');
+        mostrarErros('quantidadeNiveis', 'quantidade-niveis');
     }
     verificacaoFinal = verificacaoTitulo && verificacaoImagem && verificacaoPerguntas && verificacaoNiveis;
     return verificacaoFinal
@@ -260,12 +258,21 @@ function verificarUrl(url){
     return ((url.slice(0, 8) === 'https://' || url.slice(0, 7) === 'http://') && (extensoesImagem.includes(url.slice(-3))));
 }
 
-function mostrarErros(requisito){
-    const inputErrado = document.querySelector(`.${requisito}`);
+function mostrarErros(requisito, id){
+    const inputErrado = document.querySelector(`#${id}`);
+    inputErrado.value='';
+    console.log(inputErrado);
     inputErrado.classList.add('erro');
     inputErrado.parentNode.innerHTML += `
         <p class="mensagem-erro">${requisitos[requisito]}</p>
-    `;
+    `;  
+}
+
+function limparMensagemErro(){
+    const mensagensErro = [...document.querySelectorAll('.mensagem-erro')];
+    if (mensagensErro !== null){
+        mensagensErro.forEach((mensagem) => mensagem.innerHTML = '');
+}
 }
 
 function renderizarCriacaoPerguntas(quantidadePerguntas, quantidadeNiveis){
@@ -289,25 +296,25 @@ function criarPergunta(icone, i){
     const criacaoPergunta = icone.parentNode;
     criacaoPergunta.innerHTML = `
         <h4>Pergunta ${i}</h4>
-        <input type="text" placeholder="Texto da pergunta" class="textoPergunta">
-        <input type="text" placeholder="Cor de fundo da pergunta" class="corDeFundo">
+        <input type="text" placeholder="Texto da pergunta" id="texto-pergunta${i}">
+        <input type="text" placeholder="Cor de fundo da pergunta" id="cor-de-fundo${i}">
         <h4>Resposta correta</h4>
         <div class="resposta">
-            <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta">
-            <input type="text" placeholder="URL da imagem" class="url imagem-correta">
+            <input type="text" placeholder="Resposta correta" class="textoResposta resposta-correta" id="resposta-correta${i}">
+            <input type="text" placeholder="URL da imagem" class="url" id="imagem${i}-0">
         </div>
         <h4>Respostas incorretas</h4>
         <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta resposta-incorreta1">
-            <input type="text" placeholder="URL da imagem 1" class="url imagem-incorreta1">
+            <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/1">
+            <input type="text" placeholder="URL da imagem 1" class="url" id="imagem${i}-1">
         </div>
         <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta resposta-incorreta2">
-            <input type="text" placeholder="URL da imagem 2" class="url imagem-incorreta2">
+            <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/2">
+            <input type="text" placeholder="URL da imagem 2" class="url" id="imagem${i}-2">
         </div>
         <div class="resposta">
-            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta resposta-incorreta">
-            <input type="text" placeholder="URL da imagem 3" class="url imagem-incorreta1">
+            <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/3">
+            <input type="text" placeholder="URL da imagem 3" class="url" id="imagem${i}-3">
         </div>
     `
     criacaoPergunta.classList.remove('pergunta-minimizada');
@@ -315,17 +322,20 @@ function criarPergunta(icone, i){
 }
 
 function coletarPerguntas(quantidadeNiveis){
+    limparMensagemErro();  
     const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
     quizzDoUsuario.questions = []
     let validacaoPerguntas = true;
     let i = 0;
     perguntas.forEach(function(pergunta){
-        const textoPergunta = pergunta.querySelector('.textoPergunta');
-        const corDeFundo = pergunta.querySelector('.corDeFundo');
-        const textoRespostas =[...pergunta.querySelectorAll('.textoResposta')];
+        console.log(i);
+        const textoPergunta = pergunta.querySelector(`#texto-pergunta${i+1}`);
+        const corDeFundo = pergunta.querySelector(`#cor-de-fundo${i+1}`);
+        const textoRespostas = [...pergunta.querySelectorAll('.textoResposta')];
+        const respostaCorreta = document.querySelector(`#resposta-correta${i+1}`);
         const respostasIncorretas = [...pergunta.querySelectorAll('.resposta-incorreta')];
         const url = [...pergunta.querySelectorAll('.criacao-perguntas .url')];
-        const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, textoRespostas, respostasIncorretas, url);
+        const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, respostaCorreta.value, textoRespostas, respostasIncorretas, url, i);
         console.log(`validacao da pergunta: ${validacaoPergunta}`);
         if (validacaoPergunta === true){
             quizzDoUsuario.questions.push({});
@@ -348,9 +358,9 @@ function coletarPerguntas(quantidadeNiveis){
                 quizzDoUsuario.questions[i].answers[j].image = imagem.value;
                 j++;
             })
-            i++;
         }
         validacaoPerguntas = validacaoPerguntas && validacaoPergunta;
+        i++;
     });
     if (validacaoPerguntas === true){
         renderizarCriacaoNiveis(quantidadeNiveis);
@@ -359,22 +369,41 @@ function coletarPerguntas(quantidadeNiveis){
     }
 }
 
-function validarPerguntas(textoPergunta, corDeFundo, textoResposta, respostasIncorretas, url){
+function validarPerguntas(textoPergunta, corDeFundo, respostaCorreta, textoResposta, respostasIncorretas, url, i){
     const verificacaoTextoPergunta = textoPergunta.length >= 20;
     const verificacaoCorDeFundo = validarHexadecimal(corDeFundo);
+    const verificacaoRespostaCorreta = respostaCorreta.length >= 1;
     let verificacaoTextoResposta = true;
-    textoResposta.forEach(function(texto){
-        if (texto.value.length >= 1){
-            verificacaoTextoResposta = verificacaoTextoResposta && true;
-        }
-    })
+    textoResposta.forEach((texto) => verificacaoTextoResposta = verificacaoTextoResposta && texto.value.length >= 1);
     const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
     let verificacaoUrl = true;
-    url.forEach((imagem) => verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value));
+    let j=0;
+    url.forEach((imagem) => {
+        verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value);
+        if(!verificarUrl(imagem.value)){
+            mostrarErros('url', `imagem${i+1}-${j}`)
+        }
+        j++;
+    });
     
+    if (verificacaoTextoPergunta === false){
+        mostrarErros('textoPergunta', `texto-pergunta${i+1}`);
+    }
+    if (verificacaoCorDeFundo === false){
+        mostrarErros('corDeFundo', `cor-de-fundo${i+1}`);
+    }
+    if (verificacaoRespostaCorreta === false){
+        mostrarErros('respostaCorreta', `resposta-correta${i+1}`);
+    }
+
+    if (verificacaoRespostasIncorretas === false) {
+        mostrarErros('quantidadeResposta', `resposta-incorreta${i+1}/1`);
+    }
+
     const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;
     // console.log(`texto:${verificacaoTextoPergunta}`);
     // console.log(`cor: ${verificacaoCorDeFundo}`);
+    // console.log(`correta: ${verificacaoRespostaCorreta}`);
     // console.log(`texto resposta: ${verificacaoTextoResposta}`);
     // console.log(`resposta incorretas: ${verificacaoRespostasIncorretas}`);
     // console.log(`url: ${verificacaoUrl}`);
@@ -384,7 +413,7 @@ function validarPerguntas(textoPergunta, corDeFundo, textoResposta, respostasInc
 
 function validarHexadecimal(hexadecimal){
     let verificacao = null;
-    console.log(hexadecimal.length);
+    // console.log(hexadecimal.length);
     if (hexadecimal.length === 7){
         if (hexadecimal.slice(0,1) === '#'){
             for (let i = 1; i<hexadecimal; i++){
@@ -427,35 +456,36 @@ function criarNivel(icone, i){
     const criacaoNivel = icone.parentNode;
     criacaoNivel.innerHTML = `
         <h4>Nível ${i}</h4>
-        <input type="text" placeholder="Título do nível" class="tituloNivel">
-        <input type="text" placeholder="% de acerto mínima" class="acertoMinimo">
-        <input type="text" placeholder="URL da imagem do nível" class="url">
-        <textarea placeholder="Descrição do nível" class="descricaoNivel" cols="30" rows="10"></textarea>
+        <input type="text" placeholder="Título do nível" id="titulo-nivel${i}">
+        <input type="text" placeholder="% de acerto mínima" id="acerto-minimo${i}">
+        <input type="text" placeholder="URL da imagem do nível" id="imagem-nivel${i}">
+        <textarea placeholder="Descrição do nível" id="descricao-nivel${i}" cols="30" rows="10"></textarea>
     `
     criacaoNivel.classList.remove('nivel-minimizado');
     criacaoNivel.classList.add('criacao-nivel')
 }
 
 function coletarNiveis(){
+    limparMensagemErro(); 
     const niveis = [...document.querySelectorAll('.criacao-nivel')];
     let validacaoNiveis = true;
     let i = 0;
     quizzDoUsuario.levels = [];
     niveis.forEach(function(nivel){
-        const tituloNivel = nivel.querySelector('.tituloNivel');
-        const acertoMinimo = nivel.querySelector('.acertoMinimo');
-        const url = nivel.querySelector('.criacao-niveis .url');
-        const descricaoNivel = nivel.querySelector('.descricaoNivel');
-        const validacaoNivel = validarNivel(tituloNivel.value, acertoMinimo.value, url.value, descricaoNivel.value);
+        const tituloNivel = nivel.querySelector(`#titulo-nivel${i+1}`);
+        const acertoMinimo = nivel.querySelector(`#acerto-minimo${i+1}`);
+        const url = nivel.querySelector(`#imagem-nivel${i+1}`);
+        const descricaoNivel = nivel.querySelector(`#descricao-nivel${i+1}`);
+        const validacaoNivel = validarNivel(tituloNivel.value, acertoMinimo.value, url.value, descricaoNivel.value, i);
         if (validacaoNivel === true){
             quizzDoUsuario.levels.push({});
             quizzDoUsuario.levels[i].title = tituloNivel.value;
             quizzDoUsuario.levels[i].image = url.value;
             quizzDoUsuario.levels[i].text = descricaoNivel.value;
             quizzDoUsuario.levels[i].minValue = parseInt(acertoMinimo.value);
-            i++;
         }
         validacaoNiveis = validacaoNiveis && validacaoNivel;
+        i++;
     });
     // console.log(`validacao antes do 0: ${validacaoNiveis}`);
     let validacaoMinimoZero = false;
@@ -475,11 +505,24 @@ function coletarNiveis(){
     }
 }
 
-function validarNivel(tituloNivel, acertoMinimo, url, descricaoNivel){
+function validarNivel(tituloNivel, acertoMinimo, url, descricaoNivel, i){
     const validacaoTituloNivel = tituloNivel.length >= 10;
     const validacaoAcertoMinimo = parseInt(acertoMinimo) >= 0 && parseInt(acertoMinimo) <= 100;
     const validacaoUrl = verificarUrl(url);
     const validacaoDescricaoNivel = descricaoNivel.length >= 30;
+    if (validacaoTituloNivel === false){
+        mostrarErros('tituloNivel', `descricao-nivel${i+1}`);
+    }
+    if (validacaoAcertoMinimo === false){
+        mostrarErros('acertoMinimo', `acerto-minimo${i+1}`);
+    }
+    if (validacaoUrl === false){
+        mostrarErros('url', `imagem-nivel${i+1}`);
+    }
+    if (validacaoDescricaoNivel === false){
+        mostrarErros('descricaoNivel', `descricao-nivel${i+1}`);
+    }
+
     const validacaoFinal = validacaoTituloNivel && validacaoAcertoMinimo && validacaoUrl && validacaoDescricaoNivel;
     return validacaoFinal
 }
@@ -526,7 +569,7 @@ function renderizarSucessoDoQuizz(quizz){
     const titulo = quizz.title;
     telaSucesso.innerHTML = `
         <h3 class="tela-sucesso">Seu quizz está pronto!</h3>
-        <article class="quizz-capa" onclick="exibirQuizz(${id})">
+        <article class="quizz-capa" onclick="exibirQuizzCriado(${id})">
             <img src=${img}>
             <h3>${titulo}</h3>
         </article>

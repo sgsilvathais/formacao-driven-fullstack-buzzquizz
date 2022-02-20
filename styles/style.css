@@ -252,7 +252,8 @@ figure img{
     width: 100%; 
     height: 200px;   
 }
-figure img:first-child, figure img:nth-child(2) {
+figure img:first-child, 
+figure img:nth-child(2) {
     margin-top: 12px;
 }
 
@@ -283,13 +284,10 @@ figcaption {
     margin-top: 70px;
 }
 
-.mensagem-erro{
-    font-size: 16px;
-    color: #EC362D;
-    line-height: 19px;
-}
-
-.comeco, .criacao-perguntas, .criacao-niveis, .botoes{
+.comeco, 
+.criacao-perguntas, 
+.criacao-niveis, 
+.botoes{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -305,15 +303,8 @@ figcaption {
     font-weight: 700;
 }
 
-.criacao .comeco .informacoes-basicas li{
-    margin-bottom: 10px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.criacao input, .criacao textarea{
+.criacao input, 
+.criacao textarea{
     width: 100%;
     height: 46px;
     border: 1px solid #D1D1D1;
@@ -359,7 +350,6 @@ textarea:placeholder-shown {
     transition: all 0.3s;
 }
 
-
 .criacao button:hover {
     opacity: 1;
     cursor: pointer;
@@ -367,7 +357,9 @@ textarea:placeholder-shown {
     transition: all 0.3s;
 }
 
-.informacoes-basicas, .criacao-pergunta, .criacao-nivel{
+.informacoes-basicas, 
+.criacao-pergunta, 
+.criacao-nivel{
     background-color: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
     padding: 1px 20px;
@@ -382,13 +374,28 @@ textarea:placeholder-shown {
     margin: 27px 0 24px;
 }
 
+.mensagem-erro{
+    font-size: 16px;
+    color: #EC362D;
+    line-height: 19px;
+}
+
+.criacao .comeco .informacoes-basicas li{
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .criacao-pergunta .resposta{
     display: flex;
     flex-direction: column;
     margin-bottom: 32px;
 }
 
-.pergunta-minimizada, .nivel-minimizado{
+.pergunta-minimizada, 
+.nivel-minimizado{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -398,7 +405,8 @@ textarea:placeholder-shown {
     padding: 0 20px;
 }
 
-.pergunta-minimizada i, .nivel-minimizado i{
+.pergunta-minimizada i, 
+.nivel-minimizado i{
     font-size: 26px;
 }
 
