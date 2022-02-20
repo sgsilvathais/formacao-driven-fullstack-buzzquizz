@@ -17,6 +17,9 @@ const requisitos = {
 }
 
 let perguntas = null;
+let quizzIndividual = null;
+let contaRespostasCorretas = 0;
+let contaRespostasIncorretas = 0;
 
 function obterQuizzes(){
 
@@ -132,6 +135,8 @@ function quizzObtido(quiz) {
     const exibirQuiz = document.querySelector(".exibir-quizz");
     exibirQuiz.classList.remove("escondido");
     
+    quizzIndividual = quiz;
+    console.log(quizzIndividual);
     renderizarQuiz(quiz);
 }
 
@@ -172,6 +177,8 @@ function renderizarQuiz(quiz) {
                                                         </figure>`;                                            
         }                       
     }
+
+    quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + `<article class="caixa-quizz resultado escondido"></article>`;
     
 }
 
@@ -200,19 +207,40 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
                 alternativas[i].classList.add("nao-selecionado");
             }
     }
+
+    if(valorDaAlternativa === true)
+        contaRespostasCorretas++;
+    else
+        contaRespostasIncorretas++;
        
     setTimeout(function(){
         const caixaPergunta = document.querySelector(`.caixa-quizz:nth-child(${indicePergunta + 2})`);
 
         caixaPergunta.scrollIntoView({block: "center", behavior: "smooth"});
     }, 2000);
+
+    if(indicePergunta === (perguntas.length - 1))
+        renderizarResultado();
 }
 
-// function scrollarParaProximaPergunta(){
-//     const caixaPergunta = document.querySelector(`.caixa-quizz:nth-child(${indicePergunta + 2}) figure`);
+function renderizarResultado(){
+    const niveis = quizzIndividual.data.levels;
+    let resultado = contaRespostasCorretas / (contaRespostasCorretas + contaRespostasIncorretas) * 100;
+    const caixaResultado = document.querySelector(".caixa-quizz:last-child");
 
-//     caixaPergunta.scrollIntoView({block: "end", behavior: "smooth"});
-// }
+    caixaResultado.classList.remove("escondido");
+
+    resultado = Math.round(resultado);
+
+    for(let i = (niveis.length - 1); i >= 0; i--){
+        if(resultado >= niveis[i].minValue){
+            caixaResultado.innerHTML = `<h4>${resultado}% de acerto: ${niveis[i].title}</h4>
+                                        <img src="${niveis[i].image}">
+                                        <div>${niveis[i].text}</div>`
+        }
+    }
+
+}
 
 //criação do quizz
 
