@@ -199,8 +199,20 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
             if(!alternativas[i].classList.contains(".selecionado")){
                 alternativas[i].classList.add("nao-selecionado");
             }
-    }         
+    }
+       
+    setTimeout(function(){
+        const caixaPergunta = document.querySelector(`.caixa-quizz:nth-child(${indicePergunta + 2})`);
+
+        caixaPergunta.scrollIntoView({block: "center", behavior: "smooth"});
+    }, 2000);
 }
+
+// function scrollarParaProximaPergunta(){
+//     const caixaPergunta = document.querySelector(`.caixa-quizz:nth-child(${indicePergunta + 2}) figure`);
+
+//     caixaPergunta.scrollIntoView({block: "end", behavior: "smooth"});
+// }
 
 //criação do quizz
 
