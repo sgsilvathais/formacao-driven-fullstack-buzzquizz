@@ -227,6 +227,7 @@ function renderizarResultado(){
     const niveis = quizzIndividual.data.levels;
     let resultado = contaRespostasCorretas / (contaRespostasCorretas + contaRespostasIncorretas) * 100;
     const caixaResultado = document.querySelector(".caixa-quizz:last-child");
+    const botao = document.querySelectorAll(".exibir-quizz button");
 
     caixaResultado.classList.remove("escondido");
 
@@ -240,6 +241,30 @@ function renderizarResultado(){
         }
     }
 
+    for(let j = 0; j < botao.length; j++){
+        botao[j].classList.remove("escondido");
+    }
+
+}
+
+function reiniciarQuizz(){
+    const quizz = document.querySelector(".exibir-quizz");
+    const caixaResultado = document.querySelector(".caixa-quizz:last-child");
+    const alternativas = document.querySelectorAll("figure");
+    const botao = document.querySelectorAll(".exibir-quizz button");
+
+    for(let i = 0; i < alternativas.length; i++){
+        alternativas[i].classList.remove("selecionado", "nao-selecionado", "resposta-certa", "resposta-errada")
+    }
+
+    caixaResultado.classList.add("escondido");
+    contaRespostasCorretas = 0;
+    contaRespostasIncorretas = 0;
+    for(let j = 0; j < botao.length; j++){
+        botao[j].classList.add("escondido");
+    }
+
+    quizz.scrollIntoView({block: "start", behavior: "smooth"});
 }
 
 //criação do quizz
