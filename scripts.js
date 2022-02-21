@@ -363,7 +363,7 @@ function renderizarCriacaoPerguntas(quantidadePerguntas, quantidadeNiveis){
         criacaoPerguntas.innerHTML += `
         <div class="pergunta-minimizada">
             <h4>Pergunta ${i}</h4>
-            <i class="fa-regular fa-pen-to-square" onclick="criarPergunta(this, ${i})"></i>
+            <i class="fa-regular fa-pen-to-square" data-identifier="expand" onclick="criarPergunta(this, ${i})"></i>
         </div>
         `
     }
@@ -419,6 +419,7 @@ function criarPergunta(icone, i){
     `
     criacaoPergunta.classList.remove('pergunta-minimizada');
     criacaoPergunta.classList.add('criacao-pergunta');
+    criacaoPergunta.setAttribute('data-identifier', 'question');
 }
 
 function coletarPerguntas(quantidadePerguntas, quantidadeNiveis){
@@ -480,8 +481,6 @@ function validarPerguntas(textoPergunta, corDeFundo, respostaCorreta, respostasI
     const verificacaoTextoPergunta = textoPergunta.length >= 20;
     const verificacaoCorDeFundo = validarHexadecimal(corDeFundo);
     const verificacaoRespostaCorreta = respostaCorreta.length >= 1;
-    // let verificacaoTextoResposta = true;
-    // textoResposta.forEach((texto) => verificacaoTextoResposta = verificacaoTextoResposta && texto.value.length >= 1);
     const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
     let verificacaoUrl = true;
     let j=0;
@@ -545,7 +544,7 @@ function renderizarCriacaoNiveis(quantidadeNiveis){
         criacaoNiveis.innerHTML += `
             <div class="nivel-minimizado">
                 <h4>Nível ${i}</h4>
-                <i class="fa-regular fa-pen-to-square" onclick="criarNivel(this, ${i})"></i>
+                <i class="fa-regular fa-pen-to-square" data-identifier="expand" onclick="criarNivel(this, ${i})"></i>
             </div>
         `
     }
@@ -575,7 +574,8 @@ function criarNivel(icone, i){
         </ul>
     `
     criacaoNivel.classList.remove('nivel-minimizado');
-    criacaoNivel.classList.add('criacao-nivel')
+    criacaoNivel.classList.add('criacao-nivel');
+    criacaoNivel.setAttribute('data-identifier', 'level');
 }
 
 function coletarNiveis(quantidadeNiveis){
