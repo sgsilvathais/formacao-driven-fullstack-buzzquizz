@@ -103,15 +103,26 @@ function renderizarCapaDoQuizz(quizz, local){
 
     const listaQuizzes = document.querySelector(`.${local}`);
     
-    const quizzHTML = `
+    let quizzHTML = "";
+
+    if (local === 'quizzes-usuario') {
+        quizzHTML = `
         <article class="quizz-capa" onclick="exibirQuizz(${id})">
             <img src=${img}>
             <h3>${titulo}</h3>
-            <button onclick="deletarQuizz(${id})">
+            <button onclick="confirmarDelete(${id})">
                 <img src="./icons/delete-button.svg" alt="Botão de deletar quizz">
             </button>
         </article> 
     `;
+    } else {
+        quizzHTML = `
+        <article class="quizz-capa" onclick="exibirQuizz(${id})">
+            <img src=${img}>
+            <h3>${titulo}</h3>
+        </article> 
+    `;
+    }    
 
     listaQuizzes.innerHTML += quizzHTML;
    
@@ -670,7 +681,7 @@ function salvarQuizzDoUsuario(quizz){
     let keysArray = JSON.parse(keysString);
     keysArray.push(key);
     keysString = JSON.stringify(keysArray);
-    localStorage.setItem("keys", keyString);
+    localStorage.setItem("keys", keysString);
 
     const passaOQuizz = quizz.data;
     renderizarSucessoDoQuizz(passaOQuizz);
