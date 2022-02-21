@@ -38,7 +38,7 @@ function quizzesObtidos(quizzes){
 
     listaQuizzes.innerHTML += `
         <h2>Todos os Quizzes</h2>
-        <div class="todos-quizzes"></div>
+        <div class="todos-quizzes" data-identifier="general-quizzes"></div>
     `;
 
     quizzes.data.forEach((quizz) => renderizarCapaDoQuizz(quizz, 'todos-quizzes'));
@@ -56,7 +56,7 @@ function checarQuizzesDoUsuario(quizzes){
         listaQuizzes.innerHTML=`
             <nav class="container-botao-adicionar">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button class="botao-adicionar" onclick="criarQuizz()">Criar Quizz</button>
+                <button class="botao-adicionar" onclick="criarQuizz()" data-identifier="create-quizz">Criar Quizz</button>
             </nav>
         `;
 
@@ -65,11 +65,11 @@ function checarQuizzesDoUsuario(quizzes){
         listaQuizzes.innerHTML += `
         <header class="quizzes-usuario-header">
             <h2>Seus Quizzes</h2>
-                <button onclick="criarQuizz()">
+                <button onclick="criarQuizz()" data-identifier="create-quizz">
                     <img src="./icons/add-button.svg" alt="Botão de adicionar">
                 </button>
         </header>
-        <div class="quizzes-usuario"></div>
+        <div class="quizzes-usuario" data-identifier="user-quizzes"></div>
         `;
 
         quizzesDoUsuario.forEach((quizz) => renderizarCapaDoQuizz(quizz, 'quizzes-usuario'));
@@ -107,7 +107,7 @@ function renderizarCapaDoQuizz(quizz, local){
 
     if (local === 'quizzes-usuario') {
         quizzHTML = `
-        <article class="quizz-capa" onclick="exibirQuizz(${id})">
+        <article class="quizz-capa" onclick="exibirQuizz(${id})" data-identifier="quizz-card">
             <img src=${img}>
             <h3>${titulo}</h3>
             <button onclick="confirmarDelete(${id})">
@@ -117,7 +117,7 @@ function renderizarCapaDoQuizz(quizz, local){
     `;
     } else {
         quizzHTML = `
-        <article class="quizz-capa" onclick="exibirQuizz(${id})">
+        <article class="quizz-capa" onclick="exibirQuizz(${id})" data-identifier="quizz-card">
             <img src=${img}>
             <h3>${titulo}</h3>
         </article> 
@@ -696,7 +696,7 @@ function renderizarSucessoDoQuizz(quizz){
     const titulo = quizz.title;
     telaSucesso.innerHTML = `
         <h3 class="tela-sucesso">Seu quizz está pronto!</h3>
-        <article class="quizz-capa" onclick="exibirQuizzCriado(${id})">
+        <article class="quizz-capa" onclick="exibirQuizzCriado(${id})" data-identifier="quizz-card">
             <img src=${img}>
             <h3>${titulo}</h3>
         </article>
