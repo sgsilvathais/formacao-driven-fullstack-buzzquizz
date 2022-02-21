@@ -61,8 +61,6 @@ function checarQuizzesDoUsuario(quizzes){
 
     } else {
 
-        const listaQuizzes = document.querySelector(".listar-quizzes");
-
         listaQuizzes.innerHTML += `
         <header class="quizzes-usuario-header">
             <h2>Seus Quizzes</h2>
@@ -126,7 +124,6 @@ function exibirQuizz(idQuizz){
 
     promessa.then(quizzObtido);
     promessa.catch(erroEmObterQuizz);
-    console.log(idQuizz);
 }
 
 function quizzObtido(quiz) {
@@ -134,7 +131,6 @@ function quizzObtido(quiz) {
     exibirQuiz.classList.remove("escondido");
     
     quizzIndividual = quiz;
-    console.log(quizzIndividual);
     renderizarQuiz(quiz);
 }
 
@@ -645,7 +641,7 @@ function erroNoEnvio(){
 
 function salvarQuizzDoUsuario(quizz){
     const idQuizzCriado = quizz.data.id;
-   
+
     if (localStorage.getItem("idsQuizzesCriados") === null){
         localStorage.setItem("idsQuizzesCriados","[]");      
     }
