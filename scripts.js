@@ -716,4 +716,60 @@ function exibirQuizzCriado(id){
     exibirQuizz(id);
 }
 
+function confirmarDelete(id){
+    let resultado = confirm("Deseja excluir esse quizz?");
+    if (resultado === true){
+        deletarQuizz(id);
+    } else {
+        alert("Ok, o quizz não será excluído.");
+        location.reload();
+    }
+}
+
+function deletarQuizz(id){
+
+    let idsString = localStorage.getItem("idsQuizzesCriados");
+    let idsArray = JSON.parse(idsString);
+
+    const indice = idsArray.indexOf(id);
+
+    let keysString = localStorage.getItem("keys");
+    let keysArray = JSON.parse(keysString);
+
+    const secretKey = keysArray[indice];
+
+    const promise = axios.delete(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`, 
+    {
+        headers: {
+          "Secret-Key": secretKey
+        }
+    });
+
+    promise.then((indice) => apagarCapaDoQuizz(indice));
+    promise.catch(erroAoApagarQuizz)
+}
+
+function apagarCapaDoQuizz(indice){
+
+    location.reload();
+
+    let idsString = localStorage.getItem("idsQuizzesCriados");
+    let idsArray = JSON.parse(idsString);
+    idsArray.splice(indice,1);
+    idsString = JSON.stringify(idsArray);
+    localStorage.setItem("idsQuizzesCriados", idsString);
+
+    let keysString = localStorage.getItem("keys");
+    let keysArray = JSON.parse(keysString);
+    keysArray.splice(indice,1);
+    keysString = JSON.stringify(keysArray);
+    localStorage.setItem("keys", keysString);
+}
+
+function erroAoApagarQuizz(){
+    alert("Aconteceu algum erro no servidor =( Tente novamente mais tarde.");
+    location.reload();
+}
+
+
 obterQuizzes();
