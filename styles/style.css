@@ -101,7 +101,9 @@ h2.tela-sucesso{
     width: auto;
     height: 181px;
     position: relative;
-    margin: 14px 18px 0px 18px; 
+    margin: 14px 18px 0px 18px;
+    overflow-x: hidden;
+    overflow-wrap: break-word; 
 }
 
 .quizz-capa::after{
@@ -215,6 +217,8 @@ h2.tela-sucesso{
     text-align: center;
     z-index: 1;
     padding: 30px;
+    overflow-wrap: break-word;
+    color: white;
 }
 
 .perguntas {
@@ -240,6 +244,7 @@ h2.tela-sucesso{
     font-weight: bold;
     font-size: 19px;
     padding: 20px 15px 15px 15px;
+    overflow-wrap: break-word;
 }
 
 .caixa-respostas {
@@ -252,7 +257,8 @@ h2.tela-sucesso{
 }
 
 figure {
-    width: 14.15em;
+    width: 100%;
+    overflow-wrap: break-word;
 }
 
 figure img{
