@@ -38,7 +38,7 @@ function quizzesObtidos(quizzes){
 
     listaQuizzes.innerHTML += `
         <h2>Todos os Quizzes</h2>
-        <div class="todos-quizzes"></div>
+        <div class="todos-quizzes" data-identifier="general-quizzes"></div>
     `;
 
     quizzes.data.forEach((quizz) => renderizarCapaDoQuizz(quizz, 'todos-quizzes'));
@@ -56,7 +56,7 @@ function checarQuizzesDoUsuario(quizzes){
         listaQuizzes.innerHTML=`
             <nav class="container-botao-adicionar">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button class="botao-adicionar" onclick="criarQuizz()">Criar Quizz</button>
+                <button class="botao-adicionar" onclick="criarQuizz()" data-identifier="create-quizz">Criar Quizz</button>
             </nav>
         `;
 
@@ -65,11 +65,11 @@ function checarQuizzesDoUsuario(quizzes){
         listaQuizzes.innerHTML += `
         <header class="quizzes-usuario-header">
             <h2>Seus Quizzes</h2>
-                <button onclick="criarQuizz()">
+                <button onclick="criarQuizz()" data-identifier="create-quizz">
                     <img src="./icons/add-button.svg" alt="Botão de adicionar">
                 </button>
         </header>
-        <div class="quizzes-usuario"></div>
+        <div class="quizzes-usuario" data-identifier="user-quizzes"></div>
         `;
 
         quizzesDoUsuario.forEach((quizz) => renderizarCapaDoQuizz(quizz, 'quizzes-usuario'));
@@ -103,15 +103,26 @@ function renderizarCapaDoQuizz(quizz, local){
 
     const listaQuizzes = document.querySelector(`.${local}`);
     
-    const quizzHTML = `
-        <article class="quizz-capa" onclick="exibirQuizz(${id})">
+    let quizzHTML = "";
+
+    if (local === 'quizzes-usuario') {
+        quizzHTML = `
+        <article class="quizz-capa" onclick="exibirQuizz(${id})" data-identifier="quizz-card">
             <img src=${img}>
             <h3>${titulo}</h3>
-            <button onclick="deletarQuizz(${id})">
+            <button onclick="confirmarDelete(${id})">
                 <img src="./icons/delete-button.svg" alt="Botão de deletar quizz">
             </button>
         </article> 
     `;
+    } else {
+        quizzHTML = `
+        <article class="quizz-capa" onclick="exibirQuizz(${id})" data-identifier="quizz-card">
+            <img src=${img}>
+            <h3>${titulo}</h3>
+        </article> 
+    `;
+    }    
 
     listaQuizzes.innerHTML += quizzHTML;
    
@@ -191,7 +202,6 @@ function erroEmObterQuizz(quiz) {
 
 function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePergunta) {
     const alternativas = document.querySelectorAll(`.caixa-quizz:nth-child(${indicePergunta + 1}) figure`);
-    console.log(alternativas)
 
     alternativaSelecionada.classList.add("selecionado");
 
@@ -206,7 +216,7 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
                 alternativas[i].classList.add("nao-selecionado");
             }
             
-    }console.log(alternativas);
+    }
 
     if(valorDaAlternativa === true)
         contaRespostasCorretas++;
@@ -219,7 +229,9 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
         caixaPergunta.scrollIntoView({block: "center", behavior: "smooth"});
     }, 2000);
 
-    if(indicePergunta === (perguntas.length - 1))
+    const contaSelecionados = document.querySelectorAll(".selecionado");
+
+    if(contaSelecionados.length === perguntas.length)
         renderizarResultado();
 }
 
@@ -237,7 +249,8 @@ function renderizarResultado(){
         if(resultado >= niveis[i].minValue){
             caixaResultado.innerHTML = `<h4>${resultado}% de acerto: ${niveis[i].title}</h4>
                                         <img src="${niveis[i].image}">
-                                        <div>${niveis[i].text}</div>`
+                                        <div>${niveis[i].text}</div>`;
+        break;
         }
     }
 
@@ -667,7 +680,7 @@ function salvarQuizzDoUsuario(quizz){
     let keysArray = JSON.parse(keysString);
     keysArray.push(key);
     keysString = JSON.stringify(keysArray);
-    localStorage.setItem("keys", keyString);
+    localStorage.setItem("keys", keysString);
 
     const passaOQuizz = quizz.data;
     renderizarSucessoDoQuizz(passaOQuizz);
@@ -683,7 +696,7 @@ function renderizarSucessoDoQuizz(quizz){
     const titulo = quizz.title;
     telaSucesso.innerHTML = `
         <h3 class="tela-sucesso">Seu quizz está pronto!</h3>
-        <article class="quizz-capa" onclick="exibirQuizzCriado(${id})">
+        <article class="quizz-capa" onclick="exibirQuizzCriado(${id})" data-identifier="quizz-card">
             <img src=${img}>
             <h3>${titulo}</h3>
         </article>
@@ -701,5 +714,61 @@ function exibirQuizzCriado(id){
     telaCriacao.classList.add('escondido');
     exibirQuizz(id);
 }
+
+function confirmarDelete(id){
+    let resultado = confirm("Deseja excluir esse quizz?");
+    if (resultado === true){
+        deletarQuizz(id);
+    } else {
+        alert("Ok, o quizz não será excluído.");
+        location.reload();
+    }
+}
+
+function deletarQuizz(id){
+
+    let idsString = localStorage.getItem("idsQuizzesCriados");
+    let idsArray = JSON.parse(idsString);
+
+    const indice = idsArray.indexOf(id);
+
+    let keysString = localStorage.getItem("keys");
+    let keysArray = JSON.parse(keysString);
+
+    const secretKey = keysArray[indice];
+
+    const promise = axios.delete(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`, 
+    {
+        headers: {
+          "Secret-Key": secretKey
+        }
+    });
+
+    promise.then((indice) => apagarCapaDoQuizz(indice));
+    promise.catch(erroAoApagarQuizz)
+}
+
+function apagarCapaDoQuizz(indice){
+
+    location.reload();
+
+    let idsString = localStorage.getItem("idsQuizzesCriados");
+    let idsArray = JSON.parse(idsString);
+    idsArray.splice(indice,1);
+    idsString = JSON.stringify(idsArray);
+    localStorage.setItem("idsQuizzesCriados", idsString);
+
+    let keysString = localStorage.getItem("keys");
+    let keysArray = JSON.parse(keysString);
+    keysArray.splice(indice,1);
+    keysString = JSON.stringify(keysArray);
+    localStorage.setItem("keys", keysString);
+}
+
+function erroAoApagarQuizz(){
+    alert("Aconteceu algum erro no servidor =( Tente novamente mais tarde.");
+    location.reload();
+}
+
 
 obterQuizzes();

@@ -221,7 +221,7 @@ h2.tela-sucesso {
 
 
 .exibir-quizz {
-    width: auto;
+    width: fit-content;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -231,14 +231,15 @@ h2.tela-sucesso {
 
 .capa-quizz-individual {
     width: 100%;
-    height: 200px;
+    height: 10.5em;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
     top: 69px;
     left: 0;
-    background-size: 100% 200px;
+    background-size: cover;
+    background-position: center;
     z-index: 1;
 }
 
@@ -269,6 +270,8 @@ h2.tela-sucesso {
     background-color: white;
     padding: 18px 18px 23px 18px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    object-fit: fill;
 }
 
 .caixa-quizz h4 {
@@ -283,6 +286,7 @@ h2.tela-sucesso {
 
 .caixa-respostas {
     width: 100%;
+    height: 100%;
     background-color: white;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -291,22 +295,20 @@ h2.tela-sucesso {
 }
 
 figure {
-    /*width: 14.15em; >>> isso aqui que eu apaguei thais*/
-    max-width: 614px;
-    /* isso eu adicionei */
-    width: 100%;
-    /* isso eu adicionei */
-    overflow-wrap: break-word;
-    /* isso eu adicionei */
+    width: 14.5em;;
+    height: 50%;
 }
 
 figure img {
     width: 100%;
     object-fit: cover;
-
 }
 
-figure img:first-child,
+figure img{
+    width: 100%;         
+}
+
+figure img:first-child, 
 figure img:nth-child(2) {
     margin-top: 12px;
 }
@@ -613,6 +615,8 @@ textarea:placeholder-shown {
         font-size: 21px;
     }
 
-    .botoes {}
+    .botoes{
+        margin-top: 16px;
+    }
 
 }
