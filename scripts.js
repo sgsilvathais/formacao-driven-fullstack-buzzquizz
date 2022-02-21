@@ -21,16 +21,19 @@ let contaRespostasCorretas = 0;
 let contaRespostasIncorretas = 0;
 
 function obterQuizzes(){
-
+    
     const promessa = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
 
+    exibirTelaCarregamento();
     promessa.then(quizzesObtidos);
     promessa.catch(erroEmObterQuizzes);
+    
 }
 
 function quizzesObtidos(quizzes){
-
+    
     const listaQuizzes = document.querySelector(".listar-quizzes");
+    esconderTelaCarregamento();
 
     listaQuizzes.classList.remove("escondido");
 
@@ -129,6 +132,7 @@ function renderizarCapaDoQuizz(quizz, local){
 }
 
 function erroEmObterQuizzes(){
+    esconderTelaCarregamento();
     alert("O site está indisponível =( Tente novamente mais tarde.");
 }
 
@@ -138,12 +142,14 @@ function exibirQuizz(idQuizz){
     
     const promessa = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
 
+    exibirTelaCarregamento();
     promessa.then(quizzObtido);
     promessa.catch(erroEmObterQuizz);
 }
 
 function quizzObtido(quiz) {
     const exibirQuiz = document.querySelector(".exibir-quizz");
+    esconderTelaCarregamento();
     exibirQuiz.classList.remove("escondido");
     
     quizzIndividual = quiz;
@@ -197,6 +203,7 @@ function comparador() {
 }
     
 function erroEmObterQuizz(quiz) {
+    esconderTelaCarregamento();
     alert("O site está indisponível =( Tente novamente mais tarde.");
 }
 
@@ -648,17 +655,21 @@ function enviarQuizz(quiz){
     const criacaoNiveis = document.querySelector('.criacao-niveis');
     criacaoNiveis.classList.add('escondido');    
     const promessa = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes', quiz);
+
+    exibirTelaCarregamento();
     promessa.then(salvarQuizzDoUsuario);
     promessa.catch(erroNoEnvio);
 }
 
 function erroNoEnvio(){
+    esconderTelaCarregamento();
     alert('não deu não');
     criarQuizz();
 }
 
 function salvarQuizzDoUsuario(quizz){
     const idQuizzCriado = quizz.data.id;
+    esconderTelaCarregamento();
     
     if (localStorage.getItem("idsQuizzesCriados") === null){
         localStorage.setItem("idsQuizzesCriados","[]");      
@@ -768,6 +779,25 @@ function apagarCapaDoQuizz(indice){
 function erroAoApagarQuizz(){
     alert("Aconteceu algum erro no servidor =( Tente novamente mais tarde.");
     location.reload();
+}
+
+function exibirTelaCarregamento() {
+    const carregamento = document.querySelector(".carregamento");
+    const principal = document.querySelector("main");
+
+    carregamento.classList.remove("escondido");
+    principal.classList.add("escondido");
+
+    console.log(carregamento);
+    console.log(principal);
+}
+
+function esconderTelaCarregamento(){
+    const carregamento = document.querySelector(".carregamento");
+    const principal = document.querySelector("main");
+
+    carregamento.classList.add("escondido");
+    principal.classList.remove("escondido");
 }
 
 
