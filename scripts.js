@@ -106,7 +106,7 @@ function renderizarCapaDoQuizz(quizz){
         <article class="quizz-capa" onclick="exibirQuizz(${id})">
             <img src=${img}>
             <h3>${titulo}</h3>
-            <button>
+            <button onclick="deletarQuizz(${id})">
                 <img src="./icons/delete-button.svg" alt="Botão de deletar quizz">
             </button>
         </article> 
@@ -665,7 +665,7 @@ function erroNoEnvio(){
 
 function salvarQuizzDoUsuario(quizz){
     const idQuizzCriado = quizz.data.id;
-
+    
     if (localStorage.getItem("idsQuizzesCriados") === null){
         localStorage.setItem("idsQuizzesCriados","[]");      
     }
@@ -675,7 +675,19 @@ function salvarQuizzDoUsuario(quizz){
     idsArray.push(idQuizzCriado);
     idsString = JSON.stringify(idsArray);
     localStorage.setItem("idsQuizzesCriados", idsString);
+
+    const key = quizz.data.key;
+
+    if (localStorage.getItem("keys") === null){
+        localStorage.setItem("keys","[]");      
+    }
     
+    let keysString = localStorage.getItem("keys");
+    let keysArray = JSON.parse(keysString);
+    keysArray.push(key);
+    keysString = JSON.stringify(keysArray);
+    localStorage.setItem("keys", keyString);
+
     const passaOQuizz = quizz.data;
     renderizarSucessoDoQuizz(passaOQuizz);
     quizzDoUsuario = {};
