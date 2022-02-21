@@ -293,21 +293,16 @@ figure {
     height: 50%;
 }
 
-<<<<<<< HEAD
 figure img {
     width: 100%;
     object-fit: cover;
-
 }
 
-figure img:first-child,
-=======
 figure img{
     width: 100%;         
 }
 
 figure img:first-child, 
->>>>>>> 1255cdc (Arruma vazamento de imagens e texto do resultado do quiz)
 figure img:nth-child(2) {
     margin-top: 12px;
 }
