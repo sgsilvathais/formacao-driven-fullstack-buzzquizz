@@ -202,7 +202,6 @@ function erroEmObterQuizz(quiz) {
 
 function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePergunta) {
     const alternativas = document.querySelectorAll(`.caixa-quizz:nth-child(${indicePergunta + 1}) figure`);
-    console.log(alternativas)
 
     alternativaSelecionada.classList.add("selecionado");
 
@@ -217,7 +216,7 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
                 alternativas[i].classList.add("nao-selecionado");
             }
             
-    }console.log(alternativas);
+    }
 
     if(valorDaAlternativa === true)
         contaRespostasCorretas++;
@@ -230,7 +229,9 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
         caixaPergunta.scrollIntoView({block: "center", behavior: "smooth"});
     }, 2000);
 
-    if(indicePergunta === (perguntas.length - 1))
+    const contaSelecionados = document.querySelectorAll(".selecionado");
+
+    if(contaSelecionados.length === perguntas.length)
         renderizarResultado();
 }
 
@@ -252,8 +253,6 @@ function renderizarResultado(){
         break;
         }
     }
-
-    console.log(niveis);
 
     for(let j = 0; j < botao.length; j++){
         botao[j].classList.remove("escondido");
