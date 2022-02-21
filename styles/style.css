@@ -250,9 +250,14 @@ h2.tela-sucesso{
     grid-row-gap: 17px;
 }
 
+figure {
+    width: 14.15em;
+}
+
 figure img{
     width: 100%; 
-    height: 200px;   
+    object-fit: cover;
+       
 }
 figure img:first-child, 
 figure img:nth-child(2) {
@@ -263,6 +268,7 @@ figcaption {
     font-size: 15px;
     font-weight: bold;
     margin-top: 10px;
+    overflow-wrap: break-word;
 }
 
 .resposta-certa {
@@ -371,6 +377,12 @@ textarea:placeholder-shown {
 
 .exibir-quizz button {
     opacity: 1;
+    margin: 0;
+}
+
+.exibir-quizz button:last-child {
+    background: none;
+    color: #818181;
 }
 
 .criacao button:hover, .exibir-quizz button:hover {
