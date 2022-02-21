@@ -106,6 +106,9 @@ function renderizarCapaDoQuizz(quizz){
         <article class="quizz-capa" onclick="exibirQuizz(${id})">
             <img src=${img}>
             <h3>${titulo}</h3>
+            <button>
+                <img src="./icons/delete-button.svg" alt="Botão de deletar quizz">
+            </button>
         </article> 
     `;
 

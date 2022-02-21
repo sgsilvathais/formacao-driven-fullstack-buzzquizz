@@ -143,6 +143,35 @@ h2.tela-sucesso{
     text-align: left;
 }
 
+.quizz-capa button {
+    position: absolute;
+    z-index: 3;
+    right: 0px;
+    top: 9px;
+    width: 43px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #EC362D;
+    border-style: none;
+    border-radius: 10px 0px 0px 11px;
+}
+
+.quizz-capa button img {
+    width: 19px;
+    height: auto;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.quizz-capa button img:hover {
+    transform: scale(1.3);
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
 .container-botao-adicionar {
     height: 181px;
     width: auto;
