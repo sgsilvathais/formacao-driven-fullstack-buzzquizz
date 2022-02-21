@@ -38,9 +38,10 @@ function quizzesObtidos(quizzes){
 
     listaQuizzes.innerHTML += `
         <h2>Todos os Quizzes</h2>
+        <div class="todos-quizzes"></div>
     `;
 
-    quizzes.data.forEach(renderizarCapaDoQuizz);
+    quizzes.data.forEach((quizz) => renderizarCapaDoQuizz(quizz, 'todos-quizzes'));
 
 }
 
@@ -67,10 +68,11 @@ function checarQuizzesDoUsuario(quizzes){
                 <button onclick="criarQuizz()">
                     <img src="./icons/add-button.svg" alt="Botão de adicionar">
                 </button>
-            </header>
+        </header>
+        <div class="quizzes-usuario"></div>
         `;
 
-        quizzesDoUsuario.forEach(renderizarCapaDoQuizz);
+        quizzesDoUsuario.forEach((quizz) => renderizarCapaDoQuizz(quizz, 'quizzes-usuario'));
 
     }
 }
@@ -94,12 +96,12 @@ function filtrarQuizzesDoUsuario(quizz){
     } 
 }
 
-function renderizarCapaDoQuizz(quizz){
+function renderizarCapaDoQuizz(quizz, local){
     const titulo = quizz.title;
     const img = quizz.image;
     const id = quizz.id;
 
-    const listaQuizzes = document.querySelector(".listar-quizzes");
+    const listaQuizzes = document.querySelector(`.${local}`);
     
     const quizzHTML = `
         <article class="quizz-capa" onclick="exibirQuizz(${id})">
