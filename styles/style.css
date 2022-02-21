@@ -236,7 +236,8 @@ h2.tela-sucesso {
     position: absolute;
     top: 69px;
     left: 0;
-    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center;
     z-index: 1;
 }
 
