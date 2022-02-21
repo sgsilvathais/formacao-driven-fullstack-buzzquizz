@@ -194,7 +194,7 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
     const alternativas = document.querySelectorAll(`.caixa-quizz:nth-child(${indicePergunta + 1}) figure`);
     console.log(alternativas)
 
-    alternativaSelecionada.classList.add(".selecionado");
+    alternativaSelecionada.classList.add("selecionado");
 
     for(let i = 0; i < alternativas.length; i++){
             if(perguntas[indicePergunta].answers[i].isCorrectAnswer){
@@ -203,10 +203,11 @@ function selecionarResposta(valorDaAlternativa, alternativaSelecionada, indicePe
             else{
                 alternativas[i].classList.add("resposta-errada");
             }
-            if(!alternativas[i].classList.contains(".selecionado")){
+            if(!alternativas[i].classList.contains("selecionado")){
                 alternativas[i].classList.add("nao-selecionado");
             }
-    }
+            
+    }console.log(alternativas);
 
     if(valorDaAlternativa === true)
         contaRespostasCorretas++;
@@ -254,7 +255,7 @@ function reiniciarQuizz(){
     const botao = document.querySelectorAll(".exibir-quizz button");
 
     for(let i = 0; i < alternativas.length; i++){
-        alternativas[i].classList.remove("selecionado", "nao-selecionado", "resposta-certa", "resposta-errada")
+        alternativas[i].classList.remove("selecionado", "nao-selecionado", "resposta-certa", "resposta-errada");
     }
 
     caixaResultado.classList.add("escondido");
