@@ -237,9 +237,12 @@ function renderizarResultado(){
         if(resultado >= niveis[i].minValue){
             caixaResultado.innerHTML = `<h4>${resultado}% de acerto: ${niveis[i].title}</h4>
                                         <img src="${niveis[i].image}">
-                                        <div>${niveis[i].text}</div>`
+                                        <div>${niveis[i].text}</div>`;
+        break;
         }
     }
+
+    console.log(niveis);
 
     for(let j = 0; j < botao.length; j++){
         botao[j].classList.remove("escondido");
