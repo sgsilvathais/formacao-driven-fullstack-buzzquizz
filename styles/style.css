@@ -10,6 +10,7 @@ body{
     justify-content: center;
     align-items: center;
     height: auto;
+    overflow-x: hidden;
 }
 
 body > div {
@@ -21,8 +22,8 @@ body > div {
 
 body > div > header{
     background-color: #EC362D;
+    width: 100vw;
     max-width: 614px;
-    width: 100%;
     height: 69px;
     font-size: 37px;
     font-weight: 700;
