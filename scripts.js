@@ -9,7 +9,6 @@ const requisitos = {
     textoPergunta: 'A pergunta deve ter no mínimo 20 caracteres',
     corDeFundo: 'Código hexadecimal inválido',
     respostaCorreta: 'Deve haver uma resposta correta',
-    textoResposta: 'Necessita algum texto',
     quantidadeResposta: 'Deve haver pelo menos uma resposta incorreta',
     tituloNivel: 'O título no nível deve ter no mínimo 10 caracteres',
     acertoMinimo: 'Deve ser um número entre 0 e 100',
@@ -288,7 +287,6 @@ function coletarInformacoesBasicas(){
     if (validarInformacoesBasicas(tituloQuizz.value, imagemQuizz.value, quantidadePerguntas.value, quantidadeNiveis.value)){
         quizzDoUsuario.title = tituloQuizz.value;
         quizzDoUsuario.image = imagemQuizz.value;
-        // console.log(quizzDoUsuario);
         renderizarCriacaoPerguntas(quantidadePerguntas.value, quantidadeNiveis.value);
         limparInput('comeco');
     }
@@ -323,7 +321,6 @@ function verificarUrl(url){
 function mostrarErros(requisito, id){
     const inputErrado = document.querySelector(`#${id}`);
     inputErrado.value='';
-    // console.log(inputErrado);
     inputErrado.classList.add('erro');
     inputErrado.parentNode.innerHTML += `
         <p class="mensagem-erro">${requisitos[requisito]}</p>
@@ -424,24 +421,18 @@ function coletarPerguntas(quantidadePerguntas, quantidadeNiveis){
 
     let i = 0;
     perguntas.forEach(function(pergunta){
-        // console.log(i);
         const textoPergunta = pergunta.querySelector(`#texto-pergunta${i+1}`);
         const corDeFundo = pergunta.querySelector(`#cor-de-fundo${i+1}`);
-        // const textoRespostas = [...pergunta.querySelectorAll('.textoResposta')];
         const respostaCorreta = document.querySelector(`#resposta-correta${i+1}`);
         let respostasIncorretas = [...pergunta.querySelectorAll('.resposta-incorreta')];
         respostasIncorretas = respostasIncorretas.filter((resposta) => resposta.value !== '');
-        // console.log(respostasIncorretas); 
         let url = [...pergunta.querySelectorAll('.criacao-perguntas .url')];
         url = url.filter((imagem) => {
             const conjuntoResposta = imagem.parentNode.parentNode;
             const resposta = conjuntoResposta.querySelector(`li:first-child input`);
-            // console.log(`resposta: ${resposta.value}`);
             return (resposta.value != '')
         })
-        // console.log(url);
         const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, respostaCorreta.value, respostasIncorretas, url, i);
-        // console.log(`validacao da pergunta: ${validacaoPergunta}`);
         if (validacaoPergunta === true){
             quizzDoUsuario.questions.push({});
             quizzDoUsuario.questions[i].title = textoPergunta.value;
@@ -459,7 +450,6 @@ function coletarPerguntas(quantidadePerguntas, quantidadeNiveis){
             })
             j = 0;
             url.forEach((imagem)=>{
-                // console.log(`imagem: ${imagem.value}`);
                 quizzDoUsuario.questions[i].answers[j].image = imagem.value;
                 j++;
             })
@@ -508,19 +498,11 @@ function validarPerguntas(textoPergunta, corDeFundo, respostaCorreta, respostasI
     }
 
     const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoRespostasIncorretas && verificacaoUrl;
-    // console.log(`texto:${verificacaoTextoPergunta}`);
-    // console.log(`cor: ${verificacaoCorDeFundo}`);
-    // console.log(`correta: ${verificacaoRespostaCorreta}`);
-    // // console.log(`texto resposta: ${verificacaoTextoResposta}`);
-    // console.log(`resposta incorretas: ${verificacaoRespostasIncorretas}`);
-    // console.log(`url: ${verificacaoUrl}`);
-    // console.log(`verificacaoFinal: ${verificacaoFinal}`);
     return verificacaoFinal
 }
 
 function validarHexadecimal(hexadecimal){
     let verificacao = null;
-    // console.log(hexadecimal.length);
     if (hexadecimal.length === 7){
         if (hexadecimal.slice(0,1) === '#'){
             for (let i = 1; i<hexadecimal; i++){
@@ -620,7 +602,6 @@ function coletarNiveis(quantidadeNiveis){
         alert('Um dos níveis precisa ter a % de acerto mínimo igual a 0%');
     }
     validacaoNiveis = validacaoNiveis && validacaoMinimoZero;
-    // console.log(`validacao depois do 0: ${validacaoNiveis}`);
     if (validacaoNiveis === true){
         enviarQuizz(quizzDoUsuario);
 
@@ -652,9 +633,7 @@ function validarNivel(tituloNivel, acertoMinimo, url, descricaoNivel, i){
 function enviarQuizz(quiz){
     const criacaoNiveis = document.querySelector('.criacao-niveis');
     criacaoNiveis.classList.add('escondido');    
-    console.log(quiz);
     const promessa = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes', quiz);
-    console.log('enviando');
     promessa.then(salvarQuizzDoUsuario);
     promessa.catch(erroNoEnvio);
 }
@@ -709,13 +688,5 @@ function exibirQuizzCriado(id){
     telaCriacao.classList.add('escondido');
     exibirQuizz(id);
 }
-
-// function voltarParaInicio(){
-//     const telaSucesso = document.querySelector('.criacao-sucesso');
-//     const telaCriacao = document.querySelector('.criacao');
-//     telaSucesso.classList.add('escondido');
-//     telaCriacao.classList.add('escondido');
-//     obterQuizzes();
-// }
 
 obterQuizzes();
