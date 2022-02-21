@@ -102,8 +102,10 @@ h2.tela-sucesso {
     height: 181px;
     position: relative;
     margin: 14px 18px 0px 18px;
-    overflow-x: hidden; /* isso eu adicionei */
-    overflow-wrap: break-word; /* isso eu adicionei */
+    overflow-x: hidden;
+    /* isso eu adicionei */
+    overflow-wrap: break-word;
+    /* isso eu adicionei */
 }
 
 .quizz-capa::after {
@@ -210,7 +212,7 @@ h2.tela-sucesso {
 }
 
 .container-botao-adicionar button:hover {
-    color: white; 
+    color: white;
     background-color: #EC362D;
     cursor: pointer;
     -webkit-transition: all 0.3s;
@@ -246,8 +248,10 @@ h2.tela-sucesso {
     text-align: center;
     z-index: 1;
     padding: 30px;
-    overflow-wrap: break-word; /* isso eu adicionei */
-    color: white; /* isso eu adicionei */
+    overflow-wrap: break-word;
+    /* isso eu adicionei */
+    color: white;
+    /* isso eu adicionei */
 }
 
 .perguntas {
@@ -273,7 +277,8 @@ h2.tela-sucesso {
     font-weight: bold;
     font-size: 19px;
     padding: 20px 15px 15px 15px;
-    overflow-wrap: break-word; /* isso eu adicionei */
+    overflow-wrap: break-word;
+    /* isso eu adicionei */
 }
 
 .caixa-respostas {
@@ -286,10 +291,13 @@ h2.tela-sucesso {
 }
 
 figure {
-    /*width: 14.15em; >>> isso aqui que eu apaguei thais*/ 
-    max-width: 614px; /* isso eu adicionei */
-    width: 100%; /* isso eu adicionei */
-    overflow-wrap: break-word; /* isso eu adicionei */
+    /*width: 14.15em; >>> isso aqui que eu apaguei thais*/
+    max-width: 614px;
+    /* isso eu adicionei */
+    width: 100%;
+    /* isso eu adicionei */
+    overflow-wrap: break-word;
+    /* isso eu adicionei */
 }
 
 figure img {
@@ -513,16 +521,16 @@ textarea:placeholder-shown {
     body>div {
         max-width: 100vw;
         display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     main {
         width: 1070px;
         display: flex;
-    justify-content: center;
-    align-items: center;
+        justify-content: center;
+        align-items: center;
     }
 
     .quizzes-usuario,
@@ -559,27 +567,27 @@ textarea:placeholder-shown {
         line-height: 27px;
     }
 
-    figure{
+    figure {
         width: 330px;
-        margin-right: 17px; 
+        margin-right: 17px;
     }
 
-    figcaption{
+    figcaption {
         font-size: 20px;
     }
 
-    .resultado{
+    .resultado {
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: 57px;        
+        margin-bottom: 57px;
     }
 
-    .resultado img{
+    .resultado img {
         width: 364px;
         height: 273px;
     }
 
-    .resultado div{
+    .resultado div {
         width: 328px;
         overflow-wrap: break-word;
         margin-left: 21px;
@@ -587,26 +595,24 @@ textarea:placeholder-shown {
         line-height: 25px;
     }
 
-    .resultado h4{
+    .resultado h4 {
         width: 727px;
     }
 
-    .criacao{
+    .criacao {
         width: 600px;
         padding-top: 34px;
     }
 
-    .criacao h3{
+    .criacao h3 {
         font-size: 23px;
     }
 
-    .criacao button{
+    .criacao button {
         width: 370px;
         font-size: 21px;
     }
 
-    .botoes{
-
-    }
+    .botoes {}
 
 }
