@@ -174,7 +174,7 @@ function renderizarQuiz(quiz) {
         quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + ` 
                                 
                                 <article class="caixa-quizz">
-                                    <h4>${perguntas[i].title}</h4>
+                                    <h4 data-identifier="question">${perguntas[i].title}</h4>
                                     <div class="caixa-respostas"></div>
                                 </article>
                                 `;
@@ -187,14 +187,14 @@ function renderizarQuiz(quiz) {
         for(let j = 0; j < respostas.length; j++) {
             const resposta = document.querySelector(".caixa-quizz:last-child div");
             
-            resposta.innerHTML = resposta.innerHTML + `<figure onclick="selecionarResposta(${respostas[j].isCorrectAnswer}, this, ${i})">
+            resposta.innerHTML = resposta.innerHTML + `<figure onclick="selecionarResposta(${respostas[j].isCorrectAnswer}, this, ${i})" data-identifier="answer">
                                                             <img src="${respostas[j].image}">
                                                             <figcaption>${respostas[j].text}</figcaption>
                                                         </figure>`;                                            
         }                       
     }
 
-    quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + `<article class="caixa-quizz resultado escondido"></article>`;
+    quadroPerguntas.innerHTML = quadroPerguntas.innerHTML + `<article class="caixa-quizz resultado escondido" data-identifier="quizz-result"></article>`;
     
 }
 
