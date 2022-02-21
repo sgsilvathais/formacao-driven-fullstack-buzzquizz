@@ -415,7 +415,8 @@ textarea:placeholder-shown {
     line-height: 19px;
 }
 
-.criacao input.erro:placeholder-shown{
+.criacao input.erro:placeholder-shown,
+.criacao textarea.erro:placeholder-shown{
     background-color: #FFE9E9;
 }
 

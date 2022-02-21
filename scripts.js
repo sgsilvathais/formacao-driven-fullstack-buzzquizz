@@ -97,7 +97,6 @@ function filtrarQuizzesDoUsuario(quizz){
     } 
 }
 
-
 function renderizarCapaDoQuizz(quizz){
     const titulo = quizz.title;
     const img = quizz.image;
@@ -324,7 +323,7 @@ function verificarUrl(url){
 function mostrarErros(requisito, id){
     const inputErrado = document.querySelector(`#${id}`);
     inputErrado.value='';
-    console.log(inputErrado);
+    // console.log(inputErrado);
     inputErrado.classList.add('erro');
     inputErrado.parentNode.innerHTML += `
         <p class="mensagem-erro">${requisitos[requisito]}</p>
@@ -357,7 +356,7 @@ function renderizarCriacaoPerguntas(quantidadePerguntas, quantidadeNiveis){
         </div>
         `
     }
-    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas(${quantidadeNiveis})">Prosseguir pra criar níveis</button>`
+    criacaoPerguntas.innerHTML += `<button onclick="coletarPerguntas(${quantidadePerguntas}, ${quantidadeNiveis})">Prosseguir pra criar níveis</button>`
 }
 
 function criarPergunta(icone, i){
@@ -384,7 +383,7 @@ function criarPergunta(icone, i){
         <h4>Respostas incorretas</h4>
         <ul class="resposta">
             <li>
-                <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/1">
+                <input type="text" placeholder="Resposta incorreta 1" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}-1">
             </li>
             <li>
                 <input type="text" placeholder="URL da imagem 1" class="url" id="imagem${i}-1">
@@ -392,7 +391,7 @@ function criarPergunta(icone, i){
         </ul>   
         <ul class="resposta">
             <li>
-                <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/2">
+                <input type="text" placeholder="Resposta incorreta 2" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}-2">
             </li>   
             <li>
                 <input type="text" placeholder="URL da imagem 2" class="url" id="imagem${i}-2">
@@ -400,7 +399,7 @@ function criarPergunta(icone, i){
         </ul>
         <ul class="resposta">
             <li>
-                <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}/3">
+                <input type="text" placeholder="Resposta incorreta 3" class="textoResposta resposta-incorreta" id="resposta-incorreta${i}-3">
             </li>
             <li>
                 <input type="text" placeholder="URL da imagem 3" class="url" id="imagem${i}-3">
@@ -411,40 +410,56 @@ function criarPergunta(icone, i){
     criacaoPergunta.classList.add('criacao-pergunta');
 }
 
-function coletarPerguntas(quantidadeNiveis){
+function coletarPerguntas(quantidadePerguntas, quantidadeNiveis){
     limparMensagemErro();  
     const perguntas = [...document.querySelectorAll('.criacao-pergunta')];
-    quizzDoUsuario.questions = []
-    let validacaoPerguntas = true;
+    quizzDoUsuario.questions = [];
+    let validacaoPerguntas = null;
+    if (perguntas.length === quantidadePerguntas){
+        validacaoPerguntas = true;
+    } else{
+        alert('Preencha todas as perguntas');
+        validacaoPerguntas = false;
+    }
+
     let i = 0;
     perguntas.forEach(function(pergunta){
-        console.log(i);
+        // console.log(i);
         const textoPergunta = pergunta.querySelector(`#texto-pergunta${i+1}`);
         const corDeFundo = pergunta.querySelector(`#cor-de-fundo${i+1}`);
-        const textoRespostas = [...pergunta.querySelectorAll('.textoResposta')];
+        // const textoRespostas = [...pergunta.querySelectorAll('.textoResposta')];
         const respostaCorreta = document.querySelector(`#resposta-correta${i+1}`);
-        const respostasIncorretas = [...pergunta.querySelectorAll('.resposta-incorreta')];
-        const url = [...pergunta.querySelectorAll('.criacao-perguntas .url')];
-        const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, respostaCorreta.value, textoRespostas, respostasIncorretas, url, i);
-        console.log(`validacao da pergunta: ${validacaoPergunta}`);
+        let respostasIncorretas = [...pergunta.querySelectorAll('.resposta-incorreta')];
+        respostasIncorretas = respostasIncorretas.filter((resposta) => resposta.value !== '');
+        // console.log(respostasIncorretas); 
+        let url = [...pergunta.querySelectorAll('.criacao-perguntas .url')];
+        url = url.filter((imagem) => {
+            const conjuntoResposta = imagem.parentNode.parentNode;
+            const resposta = conjuntoResposta.querySelector(`li:first-child input`);
+            // console.log(`resposta: ${resposta.value}`);
+            return (resposta.value != '')
+        })
+        // console.log(url);
+        const validacaoPergunta = validarPerguntas(textoPergunta.value, corDeFundo.value, respostaCorreta.value, respostasIncorretas, url, i);
+        // console.log(`validacao da pergunta: ${validacaoPergunta}`);
         if (validacaoPergunta === true){
             quizzDoUsuario.questions.push({});
             quizzDoUsuario.questions[i].title = textoPergunta.value;
             quizzDoUsuario.questions[i].color = corDeFundo.value;
-            quizzDoUsuario.questions[i].answers = [];
-            let j = 0;
-            textoRespostas.forEach((texto)=>{
+            quizzDoUsuario.questions[i].answers = [{
+                text: respostaCorreta.value,
+                isCorrectAnswer: true
+            }];
+            let j = 1;
+            respostasIncorretas.forEach((texto)=>{
                 quizzDoUsuario.questions[i].answers.push({})
                 quizzDoUsuario.questions[i].answers[j].text = texto.value;
-                if (texto.classList.contains('resposta-correta')){
-                    quizzDoUsuario.questions[i].answers[j].isCorrectAnswer = true;
-                } else if (texto.classList.contains('resposta-incorreta')){
-                    quizzDoUsuario.questions[i].answers[j].isCorrectAnswer = false;
-                }
+                quizzDoUsuario.questions[i].answers[j].isCorrectAnswer = false;
                 j++;
             })
             j = 0;
             url.forEach((imagem)=>{
+                // console.log(`imagem: ${imagem.value}`);
                 quizzDoUsuario.questions[i].answers[j].image = imagem.value;
                 j++;
             })
@@ -457,19 +472,23 @@ function coletarPerguntas(quantidadeNiveis){
     }
 }
 
-function validarPerguntas(textoPergunta, corDeFundo, respostaCorreta, textoResposta, respostasIncorretas, url, i){
+function validarPerguntas(textoPergunta, corDeFundo, respostaCorreta, respostasIncorretas, url, i){
     const verificacaoTextoPergunta = textoPergunta.length >= 20;
     const verificacaoCorDeFundo = validarHexadecimal(corDeFundo);
     const verificacaoRespostaCorreta = respostaCorreta.length >= 1;
-    let verificacaoTextoResposta = true;
-    textoResposta.forEach((texto) => verificacaoTextoResposta = verificacaoTextoResposta && texto.value.length >= 1);
+    // let verificacaoTextoResposta = true;
+    // textoResposta.forEach((texto) => verificacaoTextoResposta = verificacaoTextoResposta && texto.value.length >= 1);
     const verificacaoRespostasIncorretas = respostasIncorretas.length >= 1;
     let verificacaoUrl = true;
     let j=0;
     url.forEach((imagem) => {
-        verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value);
-        if(!verificarUrl(imagem.value)){
-            mostrarErros('url', `imagem${i+1}-${j}`)
+        const conjuntoResposta = imagem.parentNode.parentNode;
+        const resposta = conjuntoResposta.querySelector(`li:first-child input`);     
+        if (resposta.value != ''){
+            verificacaoUrl = verificacaoUrl && verificarUrl(imagem.value);
+            if(!verificarUrl(imagem.value)){
+                mostrarErros('url', `imagem${i+1}-${j}`)
+            }
         }
         j++;
     });
@@ -485,14 +504,14 @@ function validarPerguntas(textoPergunta, corDeFundo, respostaCorreta, textoRespo
     }
 
     if (verificacaoRespostasIncorretas === false) {
-        mostrarErros('quantidadeResposta', `resposta-incorreta${i+1}/1`);
+        mostrarErros('quantidadeResposta', `resposta-incorreta${i+1}-1`);
     }
 
-    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoTextoResposta && verificacaoRespostasIncorretas && verificacaoUrl;
+    const verificacaoFinal = verificacaoTextoPergunta && verificacaoCorDeFundo && verificacaoRespostasIncorretas && verificacaoUrl;
     // console.log(`texto:${verificacaoTextoPergunta}`);
     // console.log(`cor: ${verificacaoCorDeFundo}`);
     // console.log(`correta: ${verificacaoRespostaCorreta}`);
-    // console.log(`texto resposta: ${verificacaoTextoResposta}`);
+    // // console.log(`texto resposta: ${verificacaoTextoResposta}`);
     // console.log(`resposta incorretas: ${verificacaoRespostasIncorretas}`);
     // console.log(`url: ${verificacaoUrl}`);
     // console.log(`verificacaoFinal: ${verificacaoFinal}`);
@@ -536,7 +555,7 @@ function renderizarCriacaoNiveis(quantidadeNiveis){
     }
 
     criacaoNiveis.innerHTML += `
-        <button onclick = "coletarNiveis()">Finalizar Quizz</button>
+        <button onclick = "coletarNiveis(${quantidadeNiveis})">Finalizar Quizz</button>
     `
 }
 
@@ -563,10 +582,16 @@ function criarNivel(icone, i){
     criacaoNivel.classList.add('criacao-nivel')
 }
 
-function coletarNiveis(){
+function coletarNiveis(quantidadeNiveis){
     limparMensagemErro(); 
     const niveis = [...document.querySelectorAll('.criacao-nivel')];
-    let validacaoNiveis = true;
+    let validacaoNiveis = null;
+    if (niveis.length === quantidadeNiveis){
+        validacaoNiveis = true;
+    } else{
+        alert('Preencha todos os nívels');
+        validacaoNiveis = 0;
+    }
     let i = 0;
     quizzDoUsuario.levels = [];
     niveis.forEach(function(nivel){
@@ -671,8 +696,8 @@ function renderizarSucessoDoQuizz(quizz){
             <h3>${titulo}</h3>
         </article>
         <div class="botoes">
-            <button onclick="exibirQuizz(${id})">Acessar quizz</button>
-            <button class="voltar" onclick="voltarParaInicio()">Voltar para home</button>
+            <button onclick="exibirQuizzCriado(${id})">Acessar quizz</button>
+            <button class="voltar" onclick="location.reload()">Voltar para home</button>
         </div>
     `;
 }
@@ -685,12 +710,12 @@ function exibirQuizzCriado(id){
     exibirQuizz(id);
 }
 
-function voltarParaInicio(){
-    const telaSucesso = document.querySelector('.criacao-sucesso');
-    const telaCriacao = document.querySelector('.criacao');
-    telaSucesso.classList.add('escondido');
-    telaCriacao.classList.add('escondido');
-    obterQuizzes();
-}
+// function voltarParaInicio(){
+//     const telaSucesso = document.querySelector('.criacao-sucesso');
+//     const telaCriacao = document.querySelector('.criacao');
+//     telaSucesso.classList.add('escondido');
+//     telaCriacao.classList.add('escondido');
+//     obterQuizzes();
+// }
 
 obterQuizzes();
